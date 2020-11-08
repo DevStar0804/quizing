@@ -57,7 +57,7 @@ class _SettingPageState extends State<SettingPage> {
   String timevalue = "30";
   String randomvalue = "no";
   String areavalue = "all";
-  String questionvalue = "8";
+  String questionvalue = "1";
 
   Color colortoshow = Colors.indigoAccent;
   Color right = Colors.green;
@@ -124,6 +124,7 @@ class _SettingPageState extends State<SettingPage> {
   @override
   void initState(){
     this.maxquestion = mydata.length;
+    // this.questionvalue = mydata.length.toString();
     super.initState();
   }
   // overriding the setstate function to be called only if mounted
@@ -280,7 +281,7 @@ class _SettingPageState extends State<SettingPage> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   Expanded(
-                    flex: 8,
+                    flex: 6,
                     child: Container(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -397,7 +398,6 @@ class _SettingPageState extends State<SettingPage> {
                                           }
                                         });
                                         maxquestion = m;
-                                        print(m);
                                       }
                                     });
                                   },
@@ -418,16 +418,17 @@ class _SettingPageState extends State<SettingPage> {
                               Container(
                                 padding: EdgeInsets.all(8.0),
                                 child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            new NumberPicker.integer(
-                initialValue: _currentValue,
-                minValue: 1,
-                maxValue: mydata.length,
-                onChanged: (newValue) =>
-                    setState(() => _currentValue = newValue)),
-          ],
-        ),
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    NumberPicker.horizontal(
+                                      initialValue: int.parse(questionvalue),
+                                      minValue: 1,
+                                      maxValue: mydata.length,
+                                      onChanged: (newValue) =>
+                                          setState(() => questionvalue = newValue.toString())
+                                    ),
+                                  ],
+                                ),
                               ),
                               
                             ],
@@ -476,7 +477,7 @@ class _SettingPageState extends State<SettingPage> {
                     ),
                   ),
                   Expanded(
-                    flex: 2,
+                    flex: 4,
                     child: Container(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -509,10 +510,12 @@ class _SettingPageState extends State<SettingPage> {
                                   ),
                                 ),
                                 onTap: () => {
-                                  starttest(),
-                                  Timer(Duration(seconds: 1), (){
-                                    tabController.index=1;
-                                  })
+                                  if(int.parse(this.questionvalue)<=this.maxquestion){
+                                    starttest(),
+                                    Timer(Duration(seconds: 1), (){
+                                      tabController.index=1;
+                                    })
+                                  }
                                 }
                               ),
                             ],
