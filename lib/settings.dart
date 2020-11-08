@@ -67,6 +67,7 @@ class _SettingPageState extends State<SettingPage> {
   bool disableAnswer = false;
   int correct = 0;
   int incorrect = 0;
+  int maxquestion = 0;
   
   // extra varibale to iterate
   int j = 1;
@@ -170,7 +171,7 @@ class _SettingPageState extends State<SettingPage> {
 
   void checkanswer(String k) {
     // in the previous version this was
-    // mydata[2]["1"] == mydata[1]["1"][k]
+    // mydata["1"]['correct'] == k
     // which i forgot to change
     // so nake sure that this is now corrected
     if (test != null) {
@@ -198,22 +199,6 @@ class _SettingPageState extends State<SettingPage> {
       // changed timer duration to 1 second
       Timer(Duration(seconds: 1), nextquestion);
     }
-  }
-
-  void configLoading() {
-    EasyLoading.instance
-      ..displayDuration = const Duration(milliseconds: 2000)
-      ..indicatorType = EasyLoadingIndicatorType.fadingCircle
-      ..loadingStyle = EasyLoadingStyle.dark
-      ..indicatorSize = 45.0
-      ..radius = 10.0
-      ..progressColor = Colors.yellow
-      ..backgroundColor = Colors.green
-      ..indicatorColor = Colors.yellow
-      ..textColor = Colors.yellow
-      ..maskColor = Colors.blue.withOpacity(0.5)
-      ..userInteractions = true;
-      // ..customAnimation = CustomAnimation();
   }
 
   Widget choicebutton(String k) {
@@ -348,7 +333,7 @@ class _SettingPageState extends State<SettingPage> {
                               const Padding(
                                 padding: EdgeInsets.all(8.0),
                                 child: Text(
-                                  'Questions Max:',
+                                  'Max Questions :',
                                   style: TextStyle(
                                     fontWeight: FontWeight.w500,
                                     fontSize: 16,
@@ -359,7 +344,7 @@ class _SettingPageState extends State<SettingPage> {
                                 child: Padding(
                                 padding: EdgeInsets.all(8.0),
                                 child: Text(
-                                  '${mydata.length}', 
+                                  '${this.maxquestion.toString()}', 
                                   style: TextStyle(
                                     fontSize: 16,
                                   ),
@@ -384,18 +369,32 @@ class _SettingPageState extends State<SettingPage> {
                                 padding: EdgeInsets.all(8.0),
                                 child: DropdownButton<String>(
                                   items: [
+                                    dropdownmenuitem('All', 'all'),
+                                    dropdownmenuitem('1', '1'),
+                                    dropdownmenuitem('2', '2'),
+                                    dropdownmenuitem('3', '3'),
                                     dropdownmenuitem('4', '4'),
-                                    dropdownmenuitem('8', '8'),
-                                    dropdownmenuitem('12', '12'),
-                                    dropdownmenuitem('16', '16'),
                                   ],
                                   isExpanded: false,
                                   onChanged: (String value) {
                                     setState(() {
-                                      questionvalue = value;
+                                      areavalue = value;
+                                      if(value == 'all'){
+                                        maxquestion = mydata.length;
+                                      }
+                                      else{
+                                        int m=0;
+                                        mydata.forEach((key, data) {
+                                          if(data['area'] == value){
+                                            m++;
+                                          }
+                                        });
+                                        maxquestion = m;
+                                        print(m);
+                                      }
                                     });
                                   },
-                                  value: questionvalue,
+                                  value: areavalue,
                                   underline: Container(
                                     decoration: const BoxDecoration(
                                         border: Border(
@@ -413,19 +412,18 @@ class _SettingPageState extends State<SettingPage> {
                                 padding: EdgeInsets.all(8.0),
                                 child: DropdownButton<String>(
                                   items: [
-                                    dropdownmenuitem('All', 'all'),
-                                    dropdownmenuitem('1', '1'),
-                                    dropdownmenuitem('2', '2'),
-                                    dropdownmenuitem('3', '3'),
                                     dropdownmenuitem('4', '4'),
+                                    dropdownmenuitem('8', '8'),
+                                    dropdownmenuitem('12', '12'),
+                                    dropdownmenuitem('16', '16'),
                                   ],
                                   isExpanded: false,
                                   onChanged: (String value) {
                                     setState(() {
-                                      areavalue = value;
+                                      questionvalue = value;
                                     });
                                   },
-                                  value: areavalue,
+                                  value: questionvalue,
                                   underline: Container(
                                     decoration: const BoxDecoration(
                                         border: Border(
