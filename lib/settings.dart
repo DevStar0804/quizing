@@ -3,7 +3,10 @@ import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:test_flutter/result.dart';
+
 
 class HomePage extends StatelessWidget {
   @override
@@ -64,6 +67,7 @@ class _SettingPageState extends State<SettingPage> {
   bool disableAnswer = false;
   int correct = 0;
   int incorrect = 0;
+  
   // extra varibale to iterate
   int j = 1;
   int p = 0;
@@ -108,13 +112,6 @@ class _SettingPageState extends State<SettingPage> {
     print(random_array);
   }
 
-  // overriding the initstate function to start timer as this screen is created
-  // @override
-  // void initState() {
-  //   starttimer();
-  //   genrandomarray();
-  //   super.initState();
-  // }
   void starttest() {
     this.process = true;
     starttimer();
@@ -203,6 +200,22 @@ class _SettingPageState extends State<SettingPage> {
     }
   }
 
+  void configLoading() {
+    EasyLoading.instance
+      ..displayDuration = const Duration(milliseconds: 2000)
+      ..indicatorType = EasyLoadingIndicatorType.fadingCircle
+      ..loadingStyle = EasyLoadingStyle.dark
+      ..indicatorSize = 45.0
+      ..radius = 10.0
+      ..progressColor = Colors.yellow
+      ..backgroundColor = Colors.green
+      ..indicatorColor = Colors.yellow
+      ..textColor = Colors.yellow
+      ..maskColor = Colors.blue.withOpacity(0.5)
+      ..userInteractions = true;
+      // ..customAnimation = CustomAnimation();
+  }
+
   Widget choicebutton(String k) {
     return Padding(
       padding: EdgeInsets.symmetric(
@@ -264,23 +277,18 @@ class _SettingPageState extends State<SettingPage> {
           }
         });
         return Scaffold(
-          appBar: AppBar(
-            bottom: TabBar(
-              tabs: [
-                Tab(icon: Icon(Icons.settings)),
-                Tab(icon: Icon(Icons.flight_takeoff)),
-              ],
-            ),
-            title: Text('Settings'),
+          appBar: tabController.index==0? AppBar(
+            backgroundColor: Theme.of(context).cursorColor,
+            title:  Text('Settings'),
             centerTitle: true,
-          ),
+          ): null,
           body: TabBarView(
             children: <Widget>[
               Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   Expanded(
-                    flex: 5,
+                    flex: 6,
                     child: Container(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -371,6 +379,36 @@ class _SettingPageState extends State<SettingPage> {
                                   ),
                                 ),
                               ),
+                              
+                              Container(
+                                padding: EdgeInsets.all(8.0),
+                                child: DropdownButton<String>(
+                                  items: [
+                                    dropdownmenuitem('4', '4'),
+                                    dropdownmenuitem('8', '8'),
+                                    dropdownmenuitem('12', '12'),
+                                    dropdownmenuitem('16', '16'),
+                                  ],
+                                  isExpanded: false,
+                                  onChanged: (String value) {
+                                    setState(() {
+                                      questionvalue = value;
+                                    });
+                                  },
+                                  value: questionvalue,
+                                  underline: Container(
+                                    decoration: const BoxDecoration(
+                                        border: Border(
+                                            bottom: BorderSide(
+                                                color: Colors.grey))),
+                                  ),
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ),
+                              
                               Container(
                                 padding: EdgeInsets.all(8.0),
                                 child: DropdownButton<String>(
@@ -400,34 +438,7 @@ class _SettingPageState extends State<SettingPage> {
                                   ),
                                 ),
                               ),
-                              Container(
-                                padding: EdgeInsets.all(8.0),
-                                child: DropdownButton<String>(
-                                  items: [
-                                    dropdownmenuitem('4', '4'),
-                                    dropdownmenuitem('8', '8'),
-                                    dropdownmenuitem('12', '12'),
-                                    dropdownmenuitem('16', '16'),
-                                  ],
-                                  isExpanded: false,
-                                  onChanged: (String value) {
-                                    setState(() {
-                                      questionvalue = value;
-                                    });
-                                  },
-                                  value: questionvalue,
-                                  underline: Container(
-                                    decoration: const BoxDecoration(
-                                        border: Border(
-                                            bottom: BorderSide(
-                                                color: Colors.grey))),
-                                  ),
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                              ),
+                              
                             ],
                           ),
                           Row(children: <Widget>[
@@ -439,51 +450,42 @@ class _SettingPageState extends State<SettingPage> {
                                     fontSize: 16,
                                   )),
                             ),
-                            DropdownButton<String>(
-                              items: [
-                                DropdownMenuItem<String>(
-                                  child: Row(
-                                    children: <Widget>[
-                                      Text('YES'),
-                                    ],
-                                  ),
-                                  value: 'yes',
-                                ),
-                                DropdownMenuItem<String>(
-                                  child: Row(
-                                    children: <Widget>[
-                                      Text('NO'),
-                                    ],
-                                  ),
-                                  value: 'no',
-                                ),
-                              ],
-                              isExpanded: false,
-                              onChanged: (String value) {
-                                setState(() {
-                                  randomvalue = value;
+                            new Radio(
+                              value: 'yes',
+                              groupValue: randomvalue,
+                              onChanged: (value){
+                                setState((){
+                                  randomvalue=value;
                                 });
                               },
-                              value: randomvalue,
-                              underline: Container(
-                                decoration: const BoxDecoration(
-                                    border: Border(
-                                        bottom:
-                                            BorderSide(color: Colors.grey))),
-                              ),
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.black,
-                              ),
-                              iconSize: 16,
                             ),
+                            new Text(
+                              'YES',
+                              style: new TextStyle(fontSize: 16.0),
+                            ),
+                            new Radio(
+                              value: 'no',
+                              groupValue: randomvalue,
+                              onChanged: (value){
+                                setState(() {
+                                  randomvalue=value;
+                                });
+                              },
+                            ),
+                            new Text(
+                              'NO',
+                              style: new TextStyle(
+                                fontSize: 16.0,
+                              ),
+                            ),
+
                           ]),
                         ],
                       ),
                     ),
                   ),
                   Expanded(
-                    flex: 5,
+                    flex: 4,
                     child: Container(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -493,34 +495,35 @@ class _SettingPageState extends State<SettingPage> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
                               GestureDetector(
-                                  child: Container(
-                                    alignment: Alignment.center,
-                                    height: 36,
-                                    width: 90,
-                                    decoration: BoxDecoration(
-                                        color: Theme.of(context).cardColor,
-                                        borderRadius: const BorderRadius.all(
-                                          Radius.circular(35),
-                                        ),
-                                        boxShadow: [
-                                          BoxShadow(
-                                              color: Colors.blue,
-                                              blurRadius: 2.0,
-                                              spreadRadius: 2.5),
-                                        ]),
-                                    child: const Text(
-                                      'Play Quiz',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w500,
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  height: 36,
+                                  width: 90,
+                                  decoration: BoxDecoration(
+                                      color: Theme.of(context).cardColor,
+                                      borderRadius: const BorderRadius.all(
+                                        Radius.circular(35),
                                       ),
+                                      boxShadow: [
+                                        BoxShadow(
+                                            color: Colors.blue,
+                                            blurRadius: 2.0,
+                                            spreadRadius: 2.5),
+                                      ]),
+                                  child: const Text(
+                                    'Play Quiz',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w500,
                                     ),
                                   ),
-                                  onTap: () => {
-                                        starttest()
-                                        // Navigator.push(context, MaterialPageRoute(
-                                        //   builder: (context)=>QuizPage(timevalue:timevalue, randomvalue:randomvalue, questionvalue: questionvalue)
-                                        // ))
-                                      }),
+                                ),
+                                onTap: () => {
+                                  starttest(),
+                                  Timer(Duration(seconds: 1), (){
+                                    tabController.index=1;
+                                  })
+                                }
+                              ),
                             ],
                           )
                         ],
@@ -529,19 +532,31 @@ class _SettingPageState extends State<SettingPage> {
                   ),
                 ],
               ),
-              // Icon(Icons.directions_bike),
+
               process
                   ? Column(
                       children: <Widget>[
                         Expanded(
                           flex: 2,
                           child: Container(
+                            alignment: Alignment.bottomCenter,
+                            child: Center(
+                              child: Text(
+                                i.toString()+'/${this.questionvalue}',
+                                style: TextStyle(fontSize:20.0),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: Container(
                             alignment: Alignment.topCenter,
                             child: Center(
                               child: Text(
                                 showtimer,
                                 style: TextStyle(
-                                  fontSize: 35.0,
+                                  fontSize: 40.0,
                                   fontWeight: FontWeight.w700,
                                   fontFamily: 'Times New Roman',
                                 ),
@@ -553,7 +568,7 @@ class _SettingPageState extends State<SettingPage> {
                           flex: 1,
                           child: Container(
                             padding: EdgeInsets.all(15.0),
-                            alignment: Alignment.bottomLeft,
+                            alignment: Alignment.centerLeft,
                             child: Text(
                               mydata[i.toString()]['question'],
                               style: TextStyle(
@@ -564,7 +579,7 @@ class _SettingPageState extends State<SettingPage> {
                           ),
                         ),
                         Expanded(
-                          flex: 7,
+                          flex: 6,
                           child: AbsorbPointer(
                             absorbing: disableAnswer,
                             child: Container(
@@ -587,7 +602,7 @@ class _SettingPageState extends State<SettingPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Text(
-                          'Click the Start button!',
+                          'Click the Play Quiz!',
                           style: TextStyle(fontSize: 32),
                         )
                       ],
