@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:numberpicker/numberpicker.dart';
 import 'package:test_flutter/result.dart';
 
 
@@ -67,7 +68,7 @@ class _SettingPageState extends State<SettingPage> {
   bool disableAnswer = false;
   int correct = 0;
   int incorrect = 0;
-  int maxquestion = 0;
+  int maxquestion = 1;
   
   // extra varibale to iterate
   int j = 1;
@@ -77,6 +78,7 @@ class _SettingPageState extends State<SettingPage> {
   var random_array;
   Timer test;
   var incorrect_array = [];
+  int _currentValue = 1;
 
   Map<String, Color> btncolor = {
     "answer a": Colors.indigoAccent,
@@ -119,6 +121,11 @@ class _SettingPageState extends State<SettingPage> {
     genrandomarray();
   }
 
+  @override
+  void initState(){
+    this.maxquestion = mydata.length;
+    super.initState();
+  }
   // overriding the setstate function to be called only if mounted
   @override
   void setState(fn) {
@@ -273,7 +280,7 @@ class _SettingPageState extends State<SettingPage> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   Expanded(
-                    flex: 6,
+                    flex: 8,
                     child: Container(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -410,31 +417,17 @@ class _SettingPageState extends State<SettingPage> {
                               
                               Container(
                                 padding: EdgeInsets.all(8.0),
-                                child: DropdownButton<String>(
-                                  items: [
-                                    dropdownmenuitem('4', '4'),
-                                    dropdownmenuitem('8', '8'),
-                                    dropdownmenuitem('12', '12'),
-                                    dropdownmenuitem('16', '16'),
-                                  ],
-                                  isExpanded: false,
-                                  onChanged: (String value) {
-                                    setState(() {
-                                      questionvalue = value;
-                                    });
-                                  },
-                                  value: questionvalue,
-                                  underline: Container(
-                                    decoration: const BoxDecoration(
-                                        border: Border(
-                                            bottom: BorderSide(
-                                                color: Colors.grey))),
-                                  ),
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.black,
-                                  ),
-                                ),
+                                child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            new NumberPicker.integer(
+                initialValue: _currentValue,
+                minValue: 1,
+                maxValue: mydata.length,
+                onChanged: (newValue) =>
+                    setState(() => _currentValue = newValue)),
+          ],
+        ),
                               ),
                               
                             ],
@@ -483,7 +476,7 @@ class _SettingPageState extends State<SettingPage> {
                     ),
                   ),
                   Expanded(
-                    flex: 4,
+                    flex: 2,
                     child: Container(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
