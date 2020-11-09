@@ -54,6 +54,7 @@ class _SettingPageState extends State<SettingPage> {
   final Map<String, dynamic> mydata;
   _SettingPageState(this.mydata);
 
+  Map<String, dynamic> questiondata;
   String timevalue = "30";
   String randomvalue = "no";
   String areavalue = "all";
@@ -95,7 +96,7 @@ class _SettingPageState extends State<SettingPage> {
     var l = 1;
     for (int i = 0;;) {
       if (this.randomvalue == "yes")
-        distinctIds.add(rand.nextInt(int.parse(this.questionvalue)) * 1 + 1);
+        distinctIds.add(rand.nextInt(maxquestion) * 1 + 1);
       else {
         distinctIds.add(l);
         l++;
@@ -183,7 +184,7 @@ class _SettingPageState extends State<SettingPage> {
     // which i forgot to change
     // so nake sure that this is now corrected
     if (test != null) {
-      if ('answer ' + mydata[i.toString()]['correct'] == k) {
+      if ('answer ' + questiondata[i.toString()]['correct'] == k) {
         // just a print sattement to check the correct working
         // debugPrint(mydata[2][i.toString()] + " is equal to " + mydata[1][i.toString()][k]);
         marks = marks + 5;
@@ -218,7 +219,7 @@ class _SettingPageState extends State<SettingPage> {
       child: MaterialButton(
         onPressed: () => checkanswer(k),
         child: Text(
-          mydata[i.toString()][k],
+          questiondata[i.toString()][k],
           style: TextStyle(
             color: Colors.white,
             fontFamily: "Alike",
@@ -388,16 +389,27 @@ class _SettingPageState extends State<SettingPage> {
                                     setState(() {
                                       areavalue = value;
                                       if(value == 'all'){
+                                        questiondata = mydata;
                                         maxquestion = mydata.length;
+                                        // print(questiondata);
                                       }
                                       else{
-                                        int m=0;
+                                        questiondata = new Map();
+                                        int n=1;
                                         mydata.forEach((key, data) {
                                           if(data['area'] == value){
-                                            m++;
+                                            questiondata[n.toString()] = data;
+                                            n++;
                                           }
                                         });
-                                        maxquestion = m;
+                                        maxquestion = questiondata.length;
+                                        // print(questiondata);
+                                        // int m=0;
+                                        // mydata.forEach((key, data) {
+                                        //   if(data['area'] == value){
+                                        //     m++;
+                                        //   }
+                                        // });
                                       }
                                     });
                                   },
@@ -420,10 +432,11 @@ class _SettingPageState extends State<SettingPage> {
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: <Widget>[
-                                    NumberPicker.horizontal(
+                                    new NumberPicker.horizontal(
+                                      listViewHeight: 30,
                                       initialValue: int.parse(questionvalue),
                                       minValue: 1,
-                                      maxValue: mydata.length,
+                                      maxValue: maxquestion,
                                       onChanged: (newValue) =>
                                           setState(() => questionvalue = newValue.toString())
                                     ),
@@ -564,7 +577,7 @@ class _SettingPageState extends State<SettingPage> {
                             padding: EdgeInsets.all(15.0),
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              mydata[i.toString()]['question'],
+                              questiondata[i.toString()]['question'],
                               style: TextStyle(
                                 fontSize: 16.0,
                                 fontFamily: "Quando",
