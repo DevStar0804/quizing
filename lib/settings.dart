@@ -173,7 +173,7 @@ class _SettingPageState extends State<SettingPage> {
               questionvalue: questionvalue,
               incorrect: incorrect,
               incorrect_array: incorrect_array,
-              mydata: mydata),
+              questiondata: questiondata),
         ));
       }
       btncolor["answer a"] = Colors.indigoAccent;
@@ -425,7 +425,6 @@ class _SettingPageState extends State<SettingPage> {
                                   ),
                                 ),
                               ),
-
                             ],
                           ),
                           Row(
@@ -456,7 +455,6 @@ class _SettingPageState extends State<SettingPage> {
                                   ],
                                 ),
                               ),
-                            
                             ],
                           ),
                           Row(children: <Widget>[

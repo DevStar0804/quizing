@@ -6,7 +6,7 @@
     "answer c": 3,
     "answer d": 4,
     "correct": "a",
-    "explanation": "a",
+    "explanation": "The framework forces the root widget to cover the screen, which means the text “Hello, world” ends up centered on screen. The text direction needs to be specified in this instance; when the MaterialApp widget is used, this is taken care of for you, as demonstrated later.",
     "area": 1
   },
   "2": {
@@ -16,7 +16,7 @@
     "answer c": 3,
     "answer d": 4,
     "correct": "b",
-    "explanation": "b",
+    "explanation": "The framework forces the root widget to cover the screen, which means the text “Hello, world” ends up centered on screen. The text direction needs to be specified in this instance; when the MaterialApp widget is used, this is taken care of for you, as demonstrated later.",
     "area": 2
   },
   "3": {
@@ -26,7 +26,7 @@
     "answer c": 3,
     "answer d": 4,
     "correct": "c",
-    "explanation": "c",
+    "explanation": "The framework forces the root widget to cover the screen, which means the text “Hello, world” ends up centered on screen. The text direction needs to be specified in this instance; when the MaterialApp widget is used, this is taken care of for you, as demonstrated later.",
     "area": 3
   },
   "4": {
@@ -36,7 +36,7 @@
     "answer c": 3,
     "answer d": 4,
     "correct": "d",
-    "explanation": "d",
+    "explanation": "The framework forces the root widget to cover the screen, which means the text “Hello, world” ends up centered on screen. The text direction needs to be specified in this instance; when the MaterialApp widget is used, this is taken care of for you, as demonstrated later.",
     "area": 4
   },
   "5": {
@@ -46,7 +46,7 @@
     "answer c": 3,
     "answer d": 4,
     "correct": "a",
-    "explanation": "a",
+    "explanation": "The framework forces the root widget to cover the screen, which means the text “Hello, world” ends up centered on screen. The text direction needs to be specified in this instance; when the MaterialApp widget is used, this is taken care of for you, as demonstrated later.",
     "area": 1
   },
   "6": {
@@ -56,7 +56,7 @@
     "answer c": 3,
     "answer d": 4,
     "correct": "b",
-    "explanation": "b",
+    "explanation": "The framework forces the root widget to cover the screen, which means the text “Hello, world” ends up centered on screen. The text direction needs to be specified in this instance; when the MaterialApp widget is used, this is taken care of for you, as demonstrated later.",
     "area": 2
   },
   "7": {
@@ -66,7 +66,7 @@
     "answer c": 7,
     "answer d": 4,
     "correct": "c",
-    "explanation": "c",
+    "explanation": "The framework forces the root widget to cover the screen, which means the text “Hello, world” ends up centered on screen. The text direction needs to be specified in this instance; when the MaterialApp widget is used, this is taken care of for you, as demonstrated later.",
     "area": 3
   },
   "8": {
@@ -76,7 +76,7 @@
     "answer c": 3,
     "answer d": 8,
     "correct": "d",
-    "explanation": "d",
+    "explanation": "The framework forces the root widget to cover the screen, which means the text “Hello, world” ends up centered on screen. The text direction needs to be specified in this instance; when the MaterialApp widget is used, this is taken care of for you, as demonstrated later.",
     "area": 4
   },
   "9": {
@@ -86,7 +86,7 @@
     "answer c": 3,
     "answer d": 4,
     "correct": "a",
-    "explanation": "a",
+    "explanation": "The framework forces the root widget to cover the screen, which means the text “Hello, world” ends up centered on screen. The text direction needs to be specified in this instance; when the MaterialApp widget is used, this is taken care of for you, as demonstrated later.",
     "area": 1
   },
   "10": {
@@ -96,7 +96,7 @@
     "answer c": 3,
     "answer d": 4,
     "correct": "b",
-    "explanation": "b",
+    "explanation": "The framework forces the root widget to cover the screen, which means the text “Hello, world” ends up centered on screen. The text direction needs to be specified in this instance; when the MaterialApp widget is used, this is taken care of for you, as demonstrated later.",
     "area": 2
   },
   "11": {
@@ -106,7 +106,7 @@
     "answer c": 11,
     "answer d": 4,
     "correct": "c",
-    "explanation": "c",
+    "explanation": "The framework forces the root widget to cover the screen, which means the text “Hello, world” ends up centered on screen. The text direction needs to be specified in this instance; when the MaterialApp widget is used, this is taken care of for you, as demonstrated later.",
     "area": 3
   },
   "12": {
@@ -116,7 +116,7 @@
     "answer c": 3,
     "answer d": 12,
     "correct": "d",
-    "explanation": "d",
+    "explanation": "The framework forces the root widget to cover the screen, which means the text “Hello, world” ends up centered on screen. The text direction needs to be specified in this instance; when the MaterialApp widget is used, this is taken care of for you, as demonstrated later.",
     "area": 4
   },
   "13": {
@@ -126,7 +126,7 @@
     "answer c": 3,
     "answer d": 4,
     "correct": "a",
-    "explanation": "a",
+    "explanation": "The framework forces the root widget to cover the screen, which means the text “Hello, world” ends up centered on screen. The text direction needs to be specified in this instance; when the MaterialApp widget is used, this is taken care of for you, as demonstrated later.",
     "area": 1
   },
   "14": {
@@ -136,7 +136,7 @@
     "answer c": 3,
     "answer d": 4,
     "correct": "b",
-    "explanation": "b",
+    "explanation": "The framework forces the root widget to cover the screen, which means the text “Hello, world” ends up centered on screen. The text direction needs to be specified in this instance; when the MaterialApp widget is used, this is taken care of for you, as demonstrated later.",
     "area": 2
   },
   "15": {
@@ -146,7 +146,7 @@
     "answer c": 15,
     "answer d": 4,
     "correct": "c",
-    "explanation": "c",
+    "explanation": "The framework forces the root widget to cover the screen, which means the text “Hello, world” ends up centered on screen. The text direction needs to be specified in this instance; when the MaterialApp widget is used, this is taken care of for you, as demonstrated later.",
     "area": 3
   },
   "16": {
@@ -156,7 +156,7 @@
     "answer c": 3,
     "answer d": 16,
     "correct": "d",
-    "explanation": "d",
+    "explanation": "The framework forces the root widget to cover the screen, which means the text “Hello, world” ends up centered on screen. The text direction needs to be specified in this instance; when the MaterialApp widget is used, this is taken care of for you, as demonstrated later.",
     "area": 4
   }
 }
