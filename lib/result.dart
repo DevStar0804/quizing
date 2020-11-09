@@ -42,6 +42,8 @@ class ResultPage extends StatelessWidget {
 
   List<Widget> explanation() {
     print(questiondata);
+    this.incorrect_array.sort();
+    var index=0;
     final widgets = List<Widget>()
       ..add(Container(
         alignment: Alignment.center,
@@ -58,9 +60,6 @@ class ResultPage extends StatelessWidget {
     if (this.incorrect_array.isNotEmpty) {
       widgets
         ..add(
-          // Column(
-          //   mainAxisAlignment: MainAxisAlignment.center,
-          //   children: [
           Container(
             padding: const EdgeInsets.all(8.0),
             height: 32,
@@ -84,14 +83,12 @@ class ResultPage extends StatelessWidget {
               ],
             ),
           ),
-
-          //   ],
-          // )
         )
         ..addAll(
           this.incorrect_array.map((i) {
             print(i);
-            return detail(i, this.questiondata['$i']['explanation']);
+            index++;
+            return detail(index, this.questiondata['$i']['explanation']);
           }),
         );
     }
@@ -190,60 +187,75 @@ class ResultPage extends StatelessWidget {
                   padding: const EdgeInsets.all(16.0),
                   child: Column(
                     children: <Widget>[
-                      Card(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0)),
-                        child: ListTile(
-                          contentPadding: const EdgeInsets.all(5.0),
-                          title: Text("Total Questions", style: titleStyle),
-                          trailing: Text("${this.questionvalue}",
-                              style: trailingStyle),
+                      Container(
+                        height: 60,
+                        child:Card(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0)),
+                          elevation: 10,
+                          child: ListTile(
+                            title: Text("Total Questions", style: titleStyle),
+                            trailing: Text("${this.questionvalue}",
+                                style: trailingStyle),
+                          ),
                         ),
                       ),
                       SizedBox(height: 10.0),
-                      Card(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0)),
-                        child: ListTile(
-                          contentPadding: const EdgeInsets.all(5.0),
-                          title: Text("Score", style: titleStyle),
-                          trailing: Text(
-                              "${(this.correct / int.parse(this.questionvalue) * 100).toInt()}%",
-                              style: trailingStyle),
+                      Container(
+                        height: 60,
+                        child:Card(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0)),
+                          elevation: 10,
+                          child: ListTile(
+                            title: Text("Score", style: titleStyle),
+                            trailing: Text(
+                                "${(this.correct / int.parse(this.questionvalue) * 100).toInt()}%",
+                                style: trailingStyle),
+                          ),
                         ),
                       ),
                       SizedBox(height: 10.0),
-                      Card(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0)),
-                        child: ListTile(
-                          contentPadding: const EdgeInsets.all(5.0),
-                          title: Text("Correct Answers", style: titleStyle),
-                          trailing: Text("${this.correct.toString()}",
-                              style: trailingStyle),
+                      Container(
+                        height: 60,
+                        child:Card(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0)),
+                          elevation: 10,
+                          child: ListTile(
+                            title: Text("Correct Answers", style: titleStyle),
+                            trailing: Text("${this.correct.toString()}",
+                                style: trailingStyle),
+                          ),
                         ),
                       ),
                       SizedBox(height: 10.0),
-                      Card(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0)),
-                        child: ListTile(
-                          contentPadding: const EdgeInsets.all(5.0),
-                          title: Text("Incorrect Answers", style: titleStyle),
-                          trailing: Text("${this.incorrect.toString()}",
-                              style: trailingStyle),
+                      Container(
+                        height: 60,
+                        child:Card(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0)),
+                          elevation: 10,
+                          child: ListTile(
+                            title: Text("Incorrect Answers", style: titleStyle),
+                            trailing: Text("${this.incorrect.toString()}",
+                                style: trailingStyle),
+                          ),
                         ),
                       ),
                       SizedBox(height: 10.0),
-                      Card(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0)),
-                        child: ListTile(
-                          contentPadding: const EdgeInsets.all(5.0),
-                          title: Text("Not Answered", style: titleStyle),
-                          trailing: Text(
-                              "${int.parse(this.questionvalue) - this.incorrect - this.correct}",
-                              style: trailingStyle),
+                      Container(
+                        height: 60,
+                        child:Card(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0)),
+                          elevation: 10,
+                          child: ListTile(
+                            title: Text("Not Answered", style: titleStyle),
+                            trailing: Text(
+                                "${int.parse(this.questionvalue) - this.incorrect - this.correct}",
+                                style: trailingStyle),
+                          ),
                         ),
                       ),
                       SizedBox(height: 10.0),
