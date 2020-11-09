@@ -8,7 +8,6 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:test_flutter/result.dart';
 
-
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -70,7 +69,7 @@ class _SettingPageState extends State<SettingPage> {
   int correct = 0;
   int incorrect = 0;
   int maxquestion = 1;
-  
+
   // extra varibale to iterate
   int j = 1;
   int p = 0;
@@ -123,11 +122,13 @@ class _SettingPageState extends State<SettingPage> {
   }
 
   @override
-  void initState(){
+  void initState() {
     this.maxquestion = mydata.length;
+    this.questiondata = mydata;
     // this.questionvalue = mydata.length.toString();
     super.initState();
   }
+
   // overriding the setstate function to be called only if mounted
   @override
   void setState(fn) {
@@ -166,7 +167,13 @@ class _SettingPageState extends State<SettingPage> {
       } else {
         print(incorrect_array);
         Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) => ResultPage(marks:marks, correct:correct, questionvalue:questionvalue, incorrect:incorrect, incorrect_array: incorrect_array, mydata: mydata),
+          builder: (context) => ResultPage(
+              marks: marks,
+              correct: correct,
+              questionvalue: questionvalue,
+              incorrect: incorrect,
+              incorrect_array: incorrect_array,
+              mydata: mydata),
         ));
       }
       btncolor["answer a"] = Colors.indigoAccent;
@@ -191,7 +198,7 @@ class _SettingPageState extends State<SettingPage> {
         // changing the color variable to be green
         colortoshow = right;
         correct++;
-        incorrect_array.removeWhere((item)=>item==i);
+        incorrect_array.removeWhere((item) => item == i);
       } else {
         // just a print sattement to check the correct working
         // debugPrint(mydata[2]["1"] + " is equal to " + mydata[1]["1"][k]);
@@ -211,6 +218,7 @@ class _SettingPageState extends State<SettingPage> {
   }
 
   Widget choicebutton(String k) {
+    final double screenWidth = MediaQuery.of(context).size.width;
     return Padding(
       padding: EdgeInsets.symmetric(
         vertical: 10.0,
@@ -230,7 +238,7 @@ class _SettingPageState extends State<SettingPage> {
         color: btncolor[k],
         splashColor: Colors.indigo[700],
         highlightColor: Colors.indigo[700],
-        minWidth: 200.0,
+        minWidth: screenWidth * 0.35,
         height: 45.0,
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
@@ -249,7 +257,6 @@ class _SettingPageState extends State<SettingPage> {
     );
   }
 
-  
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -271,11 +278,13 @@ class _SettingPageState extends State<SettingPage> {
           }
         });
         return Scaffold(
-          appBar: tabController.index==0? AppBar(
-            backgroundColor: Theme.of(context).cursorColor,
-            title:  Text('Settings'),
-            centerTitle: true,
-          ): null,
+          appBar: tabController.index == 0
+              ? AppBar(
+                  backgroundColor: Theme.of(context).cursorColor,
+                  title: Text('Settings'),
+                  centerTitle: true,
+                )
+              : null,
           body: TabBarView(
             children: <Widget>[
               Column(
@@ -350,10 +359,10 @@ class _SettingPageState extends State<SettingPage> {
                                 ),
                               ),
                               Expanded(
-                                child: Padding(
+                                  child: Padding(
                                 padding: EdgeInsets.all(8.0),
                                 child: Text(
-                                  '${this.maxquestion.toString()}', 
+                                  '${this.maxquestion.toString()}',
                                   style: TextStyle(
                                     fontSize: 16,
                                   ),
@@ -366,14 +375,13 @@ class _SettingPageState extends State<SettingPage> {
                               const Padding(
                                 padding: EdgeInsets.all(8.0),
                                 child: Text(
-                                  'N. of Questions:',
+                                  'Category:',
                                   style: TextStyle(
                                     fontWeight: FontWeight.w500,
                                     fontSize: 16,
                                   ),
                                 ),
                               ),
-                              
                               Container(
                                 padding: EdgeInsets.all(8.0),
                                 child: DropdownButton<String>(
@@ -388,28 +396,19 @@ class _SettingPageState extends State<SettingPage> {
                                   onChanged: (String value) {
                                     setState(() {
                                       areavalue = value;
-                                      if(value == 'all'){
+                                      if (value == 'all') {
                                         questiondata = mydata;
                                         maxquestion = mydata.length;
-                                        // print(questiondata);
-                                      }
-                                      else{
+                                      } else {
                                         questiondata = new Map();
-                                        int n=1;
+                                        int n = 1;
                                         mydata.forEach((key, data) {
-                                          if(data['area'] == value){
+                                          if (data['area'] == value) {
                                             questiondata[n.toString()] = data;
                                             n++;
                                           }
                                         });
                                         maxquestion = questiondata.length;
-                                        // print(questiondata);
-                                        // int m=0;
-                                        // mydata.forEach((key, data) {
-                                        //   if(data['area'] == value){
-                                        //     m++;
-                                        //   }
-                                        // });
                                       }
                                     });
                                   },
@@ -426,24 +425,38 @@ class _SettingPageState extends State<SettingPage> {
                                   ),
                                 ),
                               ),
-                              
+
+                            ],
+                          ),
+                          Row(
+                            children: <Widget>[
+                              const Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Text(
+                                  'N. of Questions:',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              ),
                               Container(
                                 padding: EdgeInsets.all(8.0),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: <Widget>[
                                     new NumberPicker.horizontal(
-                                      listViewHeight: 30,
-                                      initialValue: int.parse(questionvalue),
-                                      minValue: 1,
-                                      maxValue: maxquestion,
-                                      onChanged: (newValue) =>
-                                          setState(() => questionvalue = newValue.toString())
-                                    ),
+                                        listViewHeight: 30,
+                                        initialValue: int.parse(questionvalue),
+                                        minValue: 1,
+                                        maxValue: maxquestion,
+                                        onChanged: (newValue) => setState(() =>
+                                            questionvalue =
+                                                newValue.toString())),
                                   ],
                                 ),
                               ),
-                              
+                            
                             ],
                           ),
                           Row(children: <Widget>[
@@ -458,9 +471,9 @@ class _SettingPageState extends State<SettingPage> {
                             new Radio(
                               value: 'yes',
                               groupValue: randomvalue,
-                              onChanged: (value){
-                                setState((){
-                                  randomvalue=value;
+                              onChanged: (value) {
+                                setState(() {
+                                  randomvalue = value;
                                 });
                               },
                             ),
@@ -471,9 +484,9 @@ class _SettingPageState extends State<SettingPage> {
                             new Radio(
                               value: 'no',
                               groupValue: randomvalue,
-                              onChanged: (value){
+                              onChanged: (value) {
                                 setState(() {
-                                  randomvalue=value;
+                                  randomvalue = value;
                                 });
                               },
                             ),
@@ -483,7 +496,6 @@ class _SettingPageState extends State<SettingPage> {
                                 fontSize: 16.0,
                               ),
                             ),
-
                           ]),
                         ],
                       ),
@@ -500,37 +512,38 @@ class _SettingPageState extends State<SettingPage> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
                               GestureDetector(
-                                child: Container(
-                                  alignment: Alignment.center,
-                                  height: 36,
-                                  width: 90,
-                                  decoration: BoxDecoration(
-                                      color: Theme.of(context).cardColor,
-                                      borderRadius: const BorderRadius.all(
-                                        Radius.circular(35),
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    height: 36,
+                                    width: 90,
+                                    decoration: BoxDecoration(
+                                        color: Theme.of(context).cardColor,
+                                        borderRadius: const BorderRadius.all(
+                                          Radius.circular(35),
+                                        ),
+                                        boxShadow: [
+                                          BoxShadow(
+                                              color: Colors.blue,
+                                              blurRadius: 2.0,
+                                              spreadRadius: 2.5),
+                                        ]),
+                                    child: const Text(
+                                      'Play Quiz',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w500,
                                       ),
-                                      boxShadow: [
-                                        BoxShadow(
-                                            color: Colors.blue,
-                                            blurRadius: 2.0,
-                                            spreadRadius: 2.5),
-                                      ]),
-                                  child: const Text(
-                                    'Play Quiz',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w500,
                                     ),
                                   ),
-                                ),
-                                onTap: () => {
-                                  if(int.parse(this.questionvalue)<=this.maxquestion){
-                                    starttest(),
-                                    Timer(Duration(seconds: 1), (){
-                                      tabController.index=1;
-                                    })
-                                  }
-                                }
-                              ),
+                                  onTap: () => {
+                                        if (int.parse(this.questionvalue) <=
+                                            this.maxquestion)
+                                          {
+                                            starttest(),
+                                            Timer(Duration(seconds: 1), () {
+                                              tabController.index = 1;
+                                            })
+                                          }
+                                      }),
                             ],
                           )
                         ],
@@ -539,7 +552,6 @@ class _SettingPageState extends State<SettingPage> {
                   ),
                 ],
               ),
-
               process
                   ? Column(
                       children: <Widget>[
@@ -549,8 +561,8 @@ class _SettingPageState extends State<SettingPage> {
                             alignment: Alignment.bottomCenter,
                             child: Center(
                               child: Text(
-                                i.toString()+'/${this.questionvalue}',
-                                style: TextStyle(fontSize:20.0),
+                                i.toString() + '/${this.questionvalue}',
+                                style: TextStyle(fontSize: 20.0),
                               ),
                             ),
                           ),
@@ -586,17 +598,33 @@ class _SettingPageState extends State<SettingPage> {
                           ),
                         ),
                         Expanded(
-                          flex: 6,
+                          flex: 2,
+                          child: Text('dfd'),
+                        ),
+                        Expanded(
+                          flex: 4,
                           child: AbsorbPointer(
                             absorbing: disableAnswer,
                             child: Container(
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
-                                  choicebutton('answer a'),
-                                  choicebutton('answer b'),
-                                  choicebutton('answer c'),
-                                  choicebutton('answer d'),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      choicebutton('answer a'),
+                                      choicebutton('answer b'),
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      choicebutton('answer c'),
+                                      choicebutton('answer d'),
+                                    ],
+                                  )
                                 ],
                               ),
                             ),
