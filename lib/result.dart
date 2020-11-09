@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:test_flutter/settings.dart';
 import 'dart:io';
@@ -5,7 +7,6 @@ import 'dart:io';
 class ResultPage extends StatelessWidget {
   // final List<Question> questions;
   // final Map<int, dynamic> answers;
-  final int marks;
   final String questionvalue;
   final int correct;
   final int incorrect;
@@ -16,7 +17,6 @@ class ResultPage extends StatelessWidget {
   ResultPage(
       {Key key,
       @required this.questionvalue,
-      @required this.marks,
       @required this.correct,
       @required this.incorrect,
       @required this.incorrect_array,
@@ -74,8 +74,8 @@ class ResultPage extends StatelessWidget {
                       'WRONGS: ${this.incorrect_array.length}',
                       style: TextStyle(
                         color: Colors.redAccent,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
                   ],
@@ -124,7 +124,7 @@ class ResultPage extends StatelessWidget {
                       Text('${this.questiondata[index.toString()]["question"]}',
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: 14,
+                            fontSize:16,
                             fontWeight: FontWeight.w600,
                           ),
                           textAlign: TextAlign.center),
@@ -161,13 +161,11 @@ class ResultPage extends StatelessWidget {
         final TabController tabController = DefaultTabController.of(context);
         tabController.addListener(() {});
         return Scaffold(
-          backgroundColor: Theme.of(context).cursorColor,
           appBar: tabController.index == 0
               ? AppBar(
                   backgroundColor: Theme.of(context).cursorColor,
                   title: Text(
                     'Result',
-                    style: TextStyle(fontSize: 20),
                   ),
                   elevation: 0,
                   centerTitle: true,
@@ -318,7 +316,8 @@ class ResultPage extends StatelessWidget {
                                 ),
                                 child: Text("Explanation"),
                                 onPressed: () => {
-                                  tabController.index = 1,
+                                  Timer(Duration(seconds: 1),(){tabController.index = 1;})
+                                  
                                 },
                               )),
                         ],

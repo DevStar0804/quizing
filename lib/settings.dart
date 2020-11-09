@@ -53,28 +53,25 @@ class _SettingPageState extends State<SettingPage> {
   final Map<String, dynamic> mydata;
   _SettingPageState(this.mydata);
 
-  Map<String, dynamic> questiondata;
-  String timevalue = "30";
-  String randomvalue = "no";
-  String areavalue = "all";
-  String questionvalue = "1";
+  Map<String, dynamic> questiondata; //real quiz data
+  String timevalue = "30"; // set the initial value of countdown
+  String randomvalue = "no"; // set the initial value of randomizing into "no"
+  String areavalue = "all"; // set the initial value of category into "all category"
+  String questionvalue = "2"; // set the initial number of questions into 2 questions
 
-  Color colortoshow = Colors.indigoAccent;
-  Color right = Colors.green;
-  Color wrong = Colors.red;
-  int marks = 0;
-  int i = 1;
-  bool process = false;
-  bool disableAnswer = false;
-  int correct = 0;
-  int incorrect = 0;
-  int maxquestion = 1;
+  Color colortoshow = Colors.indigoAccent; // initial choice button color
+  Color right = Colors.green; // choice button color when answer is right
+  Color wrong = Colors.red; // choice button color when answer is wrong
+  bool isQuiz = false; // the value informing to start quiz
+  bool disableAnswer = false; // the value which be able to click choice button or not
+  int correct = 0; // number of correct answers
+  int incorrect = 0; // number of wrong answers
+  int maxquestion = 1; // initial value of max questions
 
   // extra varibale to iterate
-  int j = 1;
-  int p = 0;
-  int timer = 30;
-  String showtimer = "30";
+  int i = 1; // initial No. of quiz data
+  int j = 1; // random array index
+  int timer = 30; 
   var random_array;
   Timer test;
   var incorrect_array = [];
@@ -116,7 +113,7 @@ class _SettingPageState extends State<SettingPage> {
   }
 
   void starttest() {
-    this.process = true;
+    this.isQuiz = true;
     starttimer();
     genrandomarray();
   }
@@ -140,7 +137,6 @@ class _SettingPageState extends State<SettingPage> {
   void starttimer() async {
     const onesec = Duration(seconds: 1);
     timer = int.parse(this.timevalue);
-    showtimer = this.timevalue;
     test = Timer.periodic(onesec, (Timer t) {
       setState(() {
         if (timer < 1) {
@@ -151,7 +147,6 @@ class _SettingPageState extends State<SettingPage> {
         } else {
           timer = timer - 1;
         }
-        showtimer = timer.toString();
       });
     });
   }
@@ -160,7 +155,6 @@ class _SettingPageState extends State<SettingPage> {
     canceltimer = false;
     timer = int.parse(this.timevalue);
     setState(() {
-      p++;
       if (j < int.parse(this.questionvalue)) {
         i = random_array[j];
         j++;
@@ -168,12 +162,11 @@ class _SettingPageState extends State<SettingPage> {
         print(incorrect_array);
         Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (context) => ResultPage(
-              marks: marks,
-              correct: correct,
-              questionvalue: questionvalue,
-              incorrect: incorrect,
-              incorrect_array: incorrect_array,
-              questiondata: questiondata),
+            correct: correct,
+            questionvalue: questionvalue,
+            incorrect: incorrect,
+            incorrect_array: incorrect_array,
+            questiondata: questiondata),
         ));
       }
       btncolor["answer a"] = Colors.indigoAccent;
@@ -194,7 +187,6 @@ class _SettingPageState extends State<SettingPage> {
       if ('answer ' + questiondata[i.toString()]['correct'] == k) {
         // just a print sattement to check the correct working
         // debugPrint(mydata[2][i.toString()] + " is equal to " + mydata[1][i.toString()][k]);
-        marks = marks + 5;
         // changing the color variable to be green
         colortoshow = right;
         correct++;
@@ -240,8 +232,9 @@ class _SettingPageState extends State<SettingPage> {
         highlightColor: Colors.indigo[700],
         minWidth: screenWidth * 0.35,
         height: 45.0,
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.0)
+        ),
       ),
     );
   }
@@ -269,7 +262,7 @@ class _SettingPageState extends State<SettingPage> {
               if (test != null) {
                 test.cancel();
                 setState(() {
-                  process = false;
+                  isQuiz = false;
                 });
               }
             }
@@ -283,6 +276,7 @@ class _SettingPageState extends State<SettingPage> {
                   backgroundColor: Theme.of(context).cursorColor,
                   title: Text('Settings'),
                   centerTitle: true,
+                  elevation: 0,
                 )
               : null,
           body: TabBarView(
@@ -550,7 +544,7 @@ class _SettingPageState extends State<SettingPage> {
                   ),
                 ],
               ),
-              process
+              isQuiz
                   ? Column(
                       children: <Widget>[
                         Expanded(
@@ -571,7 +565,7 @@ class _SettingPageState extends State<SettingPage> {
                             alignment: Alignment.topCenter,
                             child: Center(
                               child: Text(
-                                showtimer,
+                                timer.toString(),
                                 style: TextStyle(
                                   fontSize: 40.0,
                                   fontWeight: FontWeight.w700,
@@ -597,7 +591,7 @@ class _SettingPageState extends State<SettingPage> {
                         ),
                         Expanded(
                           flex: 2,
-                          child: Text('dfd'),
+                          child: Text('image'),
                         ),
                         Expanded(
                           flex: 4,
