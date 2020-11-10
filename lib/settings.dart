@@ -266,8 +266,6 @@ class _SettingPageState extends State<SettingPage> {
                 });
               }
             }
-            // Your code goes here.
-            // To get index of current tab use tabController.index
           }
         });
         return Scaffold(

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:test_flutter/settings.dart';
 import 'dart:io';
 
-class ResultPage extends StatelessWidget {
+class ResultPage extends StatefulWidget {
   // final List<Question> questions;
   // final Map<int, dynamic> answers;
   final String questionvalue;
@@ -23,33 +23,22 @@ class ResultPage extends StatelessWidget {
       @required this.questiondata})
       : super(key: key);
 
-  Widget explanationcard(BuildContext context, int number, String explanation) {
-    final TextStyle titleStyle = TextStyle(
-        color: Colors.black87, fontSize: 16.0, fontWeight: FontWeight.w500);
-    final TextStyle trailingStyle = TextStyle(
-        color: Theme.of(context).primaryColor,
-        fontSize: 20.0,
-        fontWeight: FontWeight.bold);
-    return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-      child: ListTile(
-        contentPadding: const EdgeInsets.all(5.0),
-        title: Text("Total Questions", style: titleStyle),
-        trailing: Text("${this.questionvalue}", style: trailingStyle),
-      ),
-    );
-  }
+  @override
+  _ResultPageState createState() => _ResultPageState();
+}
 
+class _ResultPageState extends State<ResultPage> {
+
+  bool isExplanation = false;
   List<Widget> explanation() {
-    print(questiondata);
-    this.incorrect_array.sort();
+    this.widget.incorrect_array.sort();
     var index=0;
     final widgets = List<Widget>()
       ..add(Container(
         alignment: Alignment.center,
         padding: const EdgeInsets.all(24),
         child: Text(
-          'Total Questions: ${this.questionvalue}',
+          'Total Questions: ${this.widget.questionvalue}',
           style: TextStyle(
               color: Colors.lime,
               fontSize: 22,
@@ -57,7 +46,7 @@ class ResultPage extends StatelessWidget {
               fontStyle: FontStyle.italic),
         ),
       ));
-    if (this.incorrect_array.isNotEmpty) {
+    if (this.widget.incorrect_array.isNotEmpty) {
       widgets
         ..add(
           Container(
@@ -71,7 +60,7 @@ class ResultPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
-                      'WRONGS: ${this.incorrect_array.length}',
+                      'WRONGS: ${this.widget.incorrect_array.length}',
                       style: TextStyle(
                         color: Colors.redAccent,
                         fontSize: 16,
@@ -85,10 +74,10 @@ class ResultPage extends StatelessWidget {
           ),
         )
         ..addAll(
-          this.incorrect_array.map((i) {
+          this.widget.incorrect_array.map((i) {
             print(i);
             index++;
-            return detail(index, this.questiondata['$i']['explanation']);
+            return detail(index, this.widget.questiondata['$i']['explanation']);
           }),
         );
     }
@@ -117,11 +106,11 @@ class ResultPage extends StatelessWidget {
               ),
             ),
             Expanded(
-                flex: 6,
+                flex: 8,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child:
-                      Text('${this.questiondata[index.toString()]["question"]}',
+                      Text('${this.widget.questiondata[index.toString()]["question"]}',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize:16,
@@ -137,14 +126,19 @@ class ResultPage extends StatelessWidget {
             Padding(
               padding:
                   const EdgeInsets.symmetric(vertical: 10.0, horizontal: 30.0),
-              child: Text('${this.questiondata['1']['explanation']}'),
+              child: Text('${this.widget.questiondata['1']['explanation']}'),
             ),
           ],
         )
       ],
     );
   }
-
+  @override
+  void setState(fn) {
+    if (mounted) {
+      super.setState(fn);
+    }
+  }
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
@@ -159,9 +153,17 @@ class ResultPage extends StatelessWidget {
       length: 2,
       child: Builder(builder: (BuildContext context) {
         final TabController tabController = DefaultTabController.of(context);
-        tabController.addListener(() {});
+        tabController.addListener(() {
+          if (!tabController.indexIsChanging) {
+            if (tabController.index == 0) {
+              setState(() {this.isExplanation = false;});
+            }
+            else setState(() {this.isExplanation = true;});
+          }
+          print(tabController.index == 0);
+        });
         return Scaffold(
-          appBar: tabController.index == 0
+          appBar: !isExplanation
               ? AppBar(
                   backgroundColor: Theme.of(context).cursorColor,
                   title: Text(
@@ -172,7 +174,7 @@ class ResultPage extends StatelessWidget {
                 )
               : null,
           body: TabBarView(
-            children: [
+            children: <Widget>[
               Container(
                 height: double.infinity,
                 width: double.infinity,
@@ -193,7 +195,7 @@ class ResultPage extends StatelessWidget {
                           elevation: 10,
                           child: ListTile(
                             title: Text("Total Questions", style: titleStyle),
-                            trailing: Text("${this.questionvalue}",
+                            trailing: Text("${this.widget.questionvalue}",
                                 style: trailingStyle),
                           ),
                         ),
@@ -208,7 +210,7 @@ class ResultPage extends StatelessWidget {
                           child: ListTile(
                             title: Text("Score", style: titleStyle),
                             trailing: Text(
-                                "${(this.correct / int.parse(this.questionvalue) * 100).toInt()}%",
+                                "${(this.widget.correct / int.parse(this.widget.questionvalue) * 100).toInt()}%",
                                 style: trailingStyle),
                           ),
                         ),
@@ -222,7 +224,7 @@ class ResultPage extends StatelessWidget {
                           elevation: 10,
                           child: ListTile(
                             title: Text("Correct Answers", style: titleStyle),
-                            trailing: Text("${this.correct.toString()}",
+                            trailing: Text("${this.widget.correct.toString()}",
                                 style: trailingStyle),
                           ),
                         ),
@@ -236,7 +238,7 @@ class ResultPage extends StatelessWidget {
                           elevation: 10,
                           child: ListTile(
                             title: Text("Incorrect Answers", style: titleStyle),
-                            trailing: Text("${this.incorrect.toString()}",
+                            trailing: Text("${this.widget.incorrect.toString()}",
                                 style: trailingStyle),
                           ),
                         ),
@@ -251,7 +253,7 @@ class ResultPage extends StatelessWidget {
                           child: ListTile(
                             title: Text("Not Answered", style: titleStyle),
                             trailing: Text(
-                                "${int.parse(this.questionvalue) - this.incorrect - this.correct}",
+                                "${int.parse(this.widget.questionvalue) - this.widget.incorrect - this.widget.correct}",
                                 style: trailingStyle),
                           ),
                         ),
@@ -326,6 +328,7 @@ class ResultPage extends StatelessWidget {
                   ),
                 ),
               ),
+              
               Container(
                 height: double.infinity,
                 width: double.infinity,
