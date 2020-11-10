@@ -20,12 +20,8 @@ class HomePage extends StatelessWidget {
         Map<String, dynamic> mydata = json.decode(snapshot.data.toString());
 
         if (mydata == null) {
-          return Scaffold(
-            body: Center(
-              child: Text(
-                "Loading",
-              ),
-            ),
+          return Center(
+            child: CircularProgressIndicator(),
           );
         } else {
           mydata.forEach((key, value) => {
@@ -72,10 +68,9 @@ class _SettingPageState extends State<SettingPage> {
   int i = 1; // initial No. of quiz data
   int j = 1; // random array index
   int timer = 30; 
-  var random_array;
+  List random_array;
   Timer test;
-  var incorrect_array = [];
-  int _currentValue = 1;
+  List incorrect_array = [];
 
   Map<String, Color> btncolor = {
     "answer a": Colors.indigoAccent,
@@ -88,11 +83,15 @@ class _SettingPageState extends State<SettingPage> {
 
   genrandomarray() {
     var distinctIds = [];
+    var number = [];
     var rand = new Random();
     var l = 1;
     for (int i = 0;;) {
-      if (this.randomvalue == "yes")
+      if (this.randomvalue == "yes"){
         distinctIds.add(rand.nextInt(maxquestion) * 1 + 1);
+        number.add(l);
+        l++;
+      }
       else {
         distinctIds.add(l);
         l++;
@@ -261,6 +260,7 @@ class _SettingPageState extends State<SettingPage> {
             if (tabController.index == 0) {
               if (test != null) {
                 test.cancel();
+                j=1; correct =0; incorrect=0;
                 setState(() {
                   isQuiz = false;
                 });
@@ -308,33 +308,14 @@ class _SettingPageState extends State<SettingPage> {
                               ),
                               Container(
                                 padding: EdgeInsets.only(top: 40.0),
-                                child: DropdownButton<String>(
-                                  items: [
-                                    dropdownmenuitem('30', '30'),
-                                    dropdownmenuitem('60', '5'),
-                                    dropdownmenuitem('90', '90'),
-                                    dropdownmenuitem('120', '120'),
-                                    dropdownmenuitem('150', '150'),
-                                    dropdownmenuitem('180', '180'),
-                                  ],
-                                  isExpanded: false,
-                                  onChanged: (String value) {
-                                    setState(() {
-                                      timevalue = value;
-                                    });
-                                  },
-                                  value: timevalue,
-                                  underline: Container(
-                                    decoration: const BoxDecoration(
-                                        border: Border(
-                                            bottom: BorderSide(
-                                                color: Colors.grey))),
-                                  ),
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.black,
-                                  ),
-                                ),
+                                child: new NumberPicker.horizontal(
+                                        listViewHeight: 30,
+                                        initialValue: int.parse(timevalue),
+                                        minValue: 30,
+                                        maxValue: 180,
+                                        step: 30,
+                                        onChanged: (newValue) => setState(() =>
+                                            timevalue = newValue.toString())),
                               ),
                             ],
                           ),
@@ -551,7 +532,7 @@ class _SettingPageState extends State<SettingPage> {
                             alignment: Alignment.bottomCenter,
                             child: Center(
                               child: Text(
-                                i.toString() + '/${this.questionvalue}',
+                                j.toString() + '/${this.questionvalue}',
                                 style: TextStyle(fontSize: 20.0),
                               ),
                             ),

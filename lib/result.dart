@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:quiz/settings.dart';
 import 'dart:io';
+import 'package:localstorage/localstorage.dart';
+
 
 class ResultPage extends StatefulWidget {
   // final List<Question> questions;
@@ -28,9 +30,9 @@ class ResultPage extends StatefulWidget {
 }
 
 class _ResultPageState extends State<ResultPage> {
-
-  bool isExplanation = false;
+  final LocalStorage result = new LocalStorage('quiz_result');
   List<Widget> explanation() {
+  print(result);
     this.widget.incorrect_array.sort();
     var index=0;
     final widgets = List<Widget>()
@@ -93,7 +95,7 @@ class _ResultPageState extends State<ResultPage> {
             Padding(
               padding: const EdgeInsets.only(left: 8.0, right: 4.0),
               child: CircleAvatar(
-                backgroundColor: Colors.cyanAccent,
+                backgroundColor: Colors.deepPurple,
                 radius: 12.0,
                 child: Text(
                   '$number',
@@ -142,37 +144,20 @@ class _ResultPageState extends State<ResultPage> {
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
     final TextStyle titleStyle = TextStyle(
-        color: Colors.black87, fontSize: 16.0, fontWeight: FontWeight.w500);
+        color: Colors.black87, fontSize: 20.0, fontWeight: FontWeight.w500);
     final TextStyle trailingStyle = TextStyle(
         color: Theme.of(context).primaryColor,
-        fontSize: 20.0,
+        fontSize: 24.0,
         fontWeight: FontWeight.bold);
 
     return DefaultTabController(
       length: 2,
       child: Builder(builder: (BuildContext context) {
         final TabController tabController = DefaultTabController.of(context);
-        tabController.addListener(() {
-          if (!tabController.indexIsChanging) {
-            if (tabController.index == 0) {
-              setState(() {this.isExplanation = false;});
-            }
-            else setState(() {this.isExplanation = true;});
-          }
-          print(tabController.index == 0);
-        });
+        tabController.addListener(() {});
         return Scaffold(
-          appBar: !isExplanation
-              ? AppBar(
-                  backgroundColor: Theme.of(context).cursorColor,
-                  title: Text(
-                    'Result',
-                  ),
-                  elevation: 0,
-                  centerTitle: true,
-                )
-              : null,
           body: TabBarView(
             children: <Widget>[
               Container(
@@ -184,141 +169,96 @@ class _ResultPageState extends State<ResultPage> {
                   Theme.of(context).cursorColor
                 ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
                 child: SingleChildScrollView(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.fromLTRB(16.0,40.0,16.0,16.0),
                   child: Column(
                     children: <Widget>[
                       Container(
-                        height: 60,
+                        height: screenHeight*0.13,
                         child:Card(
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10.0)),
                           elevation: 10,
-                          child: ListTile(
+                          child: Center(child:ListTile(
                             title: Text("Total Questions", style: titleStyle),
                             trailing: Text("${this.widget.questionvalue}",
                                 style: trailingStyle),
-                          ),
+                          )),
                         ),
                       ),
                       SizedBox(height: 10.0),
                       Container(
-                        height: 60,
+                        height: screenHeight*0.13,
                         child:Card(
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10.0)),
                           elevation: 10,
-                          child: ListTile(
+                          child: Center(child:ListTile(
                             title: Text("Score", style: titleStyle),
                             trailing: Text(
                                 "${(this.widget.correct / int.parse(this.widget.questionvalue) * 100).toInt()}%",
                                 style: trailingStyle),
-                          ),
+                          )),
                         ),
                       ),
                       SizedBox(height: 10.0),
                       Container(
-                        height: 60,
+                        height: screenHeight*0.13,
                         child:Card(
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10.0)),
                           elevation: 10,
-                          child: ListTile(
+                          child: Center(child:ListTile(
                             title: Text("Correct Answers", style: titleStyle),
                             trailing: Text("${this.widget.correct.toString()}",
                                 style: trailingStyle),
-                          ),
+                          )),
                         ),
                       ),
                       SizedBox(height: 10.0),
                       Container(
-                        height: 60,
+                        height: screenHeight*0.13,
                         child:Card(
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10.0)),
                           elevation: 10,
-                          child: ListTile(
+                          child: Center(child:ListTile(
                             title: Text("Incorrect Answers", style: titleStyle),
                             trailing: Text("${this.widget.incorrect.toString()}",
                                 style: trailingStyle),
-                          ),
+                          )),
                         ),
                       ),
                       SizedBox(height: 10.0),
                       Container(
-                        height: 60,
+                        height: screenHeight*0.13,
                         child:Card(
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10.0)),
                           elevation: 10,
-                          child: ListTile(
+                          child: Center(child:ListTile(
                             title: Text("Not Answered", style: titleStyle),
                             trailing: Text(
                                 "${int.parse(this.widget.questionvalue) - this.widget.incorrect - this.widget.correct}",
                                 style: trailingStyle),
-                          ),
+                          )),
                         ),
                       ),
                       SizedBox(height: 10.0),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          SizedBox(
-                              width: screenWidth * 0.25,
-                              child: RaisedButton(
-                                // padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                ),
-                                child: Text("Again"),
-                                onPressed: () => {
-                                  Navigator.of(context)
-                                      .pushReplacement(MaterialPageRoute(
-                                    builder: (context) => HomePage(),
-                                  ))
-                                },
-                              )),
-                          SizedBox(
-                              width: screenWidth * 0.25,
-                              child: RaisedButton(
-                                // padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                ),
-                                child: Text("Quit"),
-                                onPressed: () => {
-                                  exit(0),
-                                },
-                              )),
-                          SizedBox(
-                              width: screenWidth * 0.25,
-                              child: RaisedButton(
-                                // padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                ),
-                                child: Text("Save"),
-                                onPressed: () => {
-                                  Navigator.of(context)
-                                      .pushReplacement(MaterialPageRoute(
-                                    builder: (context) => HomePage(),
-                                  ))
-                                },
-                              )),
-                        ],
-                      ),
+                      
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           SizedBox(
                               width: screenWidth * 0.7,
+                              height: screenHeight*0.08,
                               child: RaisedButton(
                                 // padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10.0),
                                 ),
-                                child: Text("Explanation"),
+                                child: Text("Explanation", style: TextStyle(fontSize:20.0),),
                                 onPressed: () => {
-                                  Timer(Duration(seconds: 1),(){tabController.index = 1;})
+                                  tabController.index = 1
                                   
                                 },
                               )),
@@ -348,7 +288,7 @@ class _ResultPageState extends State<ResultPage> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             SizedBox(
-                                width: screenWidth * 0.4,
+                                width: screenWidth * 0.25,
                                 child: RaisedButton(
                                   // padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
                                   shape: RoundedRectangleBorder(
@@ -363,7 +303,7 @@ class _ResultPageState extends State<ResultPage> {
                                   },
                                 )),
                             SizedBox(
-                                width: screenWidth * 0.4,
+                                width: screenWidth * 0.25,
                                 child: RaisedButton(
                                   // padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
                                   shape: RoundedRectangleBorder(
@@ -374,13 +314,30 @@ class _ResultPageState extends State<ResultPage> {
                                     exit(0),
                                   },
                                 )),
+                            SizedBox(
+                                width: screenWidth * 0.25,
+                                child: RaisedButton(
+                                  // padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                  child: Text("Save"),
+                                  onPressed: () => {
+                                    Navigator.of(context)
+                                        .pushReplacement(MaterialPageRoute(
+                                      builder: (context) => HomePage(),
+                                    ))
+                                  },
+                                )),
                           ],
                         ),
+                        
                       )
                     ],
                   ),
                 ),
               ),
+            
             ],
           ),
         );
