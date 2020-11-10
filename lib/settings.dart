@@ -50,7 +50,7 @@ class _SettingPageState extends State<SettingPage> {
   _SettingPageState(this.mydata);
 
   Map<String, dynamic> questiondata; //real quiz data
-  String timevalue = "30"; // set the initial value of countdown
+  String timevalue = "30"; // set the initial value of countdown selection
   String randomvalue = "no"; // set the initial value of randomizing into "no"
   String areavalue = "all"; // set the initial value of category into "all category"
   String questionvalue = "2"; // set the initial number of questions into 2 questions
@@ -67,8 +67,8 @@ class _SettingPageState extends State<SettingPage> {
   // extra varibale to iterate
   int i = 1; // initial No. of quiz data
   int j = 1; // random array index
-  int timer = 30; 
-  List random_array;
+  int timer = 30; // intial value of countdown
+  List random_array; 
   Timer test;
   List incorrect_array = [];
 
@@ -80,7 +80,8 @@ class _SettingPageState extends State<SettingPage> {
   };
 
   bool canceltimer = false;
-
+  // this function is called when a quiz is started.
+  // this function returns random questions.
   genrandomarray() {
     var distinctIds = [];
     var number = [];
@@ -212,8 +213,8 @@ class _SettingPageState extends State<SettingPage> {
     final double screenWidth = MediaQuery.of(context).size.width;
     return Padding(
       padding: EdgeInsets.symmetric(
-        vertical: 10.0,
-        horizontal: 20.0,
+        vertical: 15.0,
+        horizontal: 15.0,
       ),
       child: MaterialButton(
         onPressed: () => checkanswer(k),
@@ -229,7 +230,7 @@ class _SettingPageState extends State<SettingPage> {
         color: btncolor[k],
         splashColor: Colors.indigo[700],
         highlightColor: Colors.indigo[700],
-        minWidth: screenWidth * 0.35,
+        minWidth: screenWidth * 0.4,
         height: 45.0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20.0)
@@ -311,9 +312,9 @@ class _SettingPageState extends State<SettingPage> {
                                 child: new NumberPicker.horizontal(
                                         listViewHeight: 30,
                                         initialValue: int.parse(timevalue),
-                                        minValue: 30,
+                                        minValue: 10,
                                         maxValue: 180,
-                                        step: 30,
+                                        step: 10,
                                         onChanged: (newValue) => setState(() =>
                                             timevalue = newValue.toString())),
                               ),
@@ -372,6 +373,7 @@ class _SettingPageState extends State<SettingPage> {
                                       if (value == 'all') {
                                         questiondata = mydata;
                                         maxquestion = mydata.length;
+                                        questionvalue = "2";
                                       } else {
                                         questiondata = new Map();
                                         int n = 1;
@@ -382,6 +384,7 @@ class _SettingPageState extends State<SettingPage> {
                                           }
                                         });
                                         maxquestion = questiondata.length;
+                                        questionvalue = "2";
                                       }
                                     });
                                   },
