@@ -214,7 +214,7 @@ class _SettingPageState extends State<SettingPage> {
     return Padding(
       padding: EdgeInsets.symmetric(
         vertical: 15.0,
-        horizontal: 15.0,
+        horizontal: 5.0,
       ),
       child: MaterialButton(
         onPressed: () => checkanswer(k),
@@ -230,8 +230,8 @@ class _SettingPageState extends State<SettingPage> {
         color: btncolor[k],
         splashColor: Colors.indigo[700],
         highlightColor: Colors.indigo[700],
-        minWidth: screenWidth * 0.4,
-        height: 45.0,
+        minWidth: screenWidth * 0.45,
+        height: 100.0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20.0)
         ),
@@ -572,11 +572,11 @@ class _SettingPageState extends State<SettingPage> {
                           ),
                         ),
                         Expanded(
-                          flex: 2,
+                          flex: 1,
                           child: Text('image'),
                         ),
                         Expanded(
-                          flex: 4,
+                          flex: 5,
                           child: AbsorbPointer(
                             absorbing: disableAnswer,
                             child: Container(
