@@ -1,26 +1,35 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:quiz/settings.dart';
 import 'dart:io';
-import 'package:localstorage/localstorage.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ResultPage extends StatefulWidget {
-  // final List<Question> questions;
-  // final Map<int, dynamic> answers;
-  final String questionvalue;
+  final String total;
+  final String ptotal;
+  final String area;
+  final String parea;
   final int correct;
+  final String pcorrect;
   final int incorrect;
+  final String pincorrect;
+  final String pnotanswered;
+  final String pscore;
   final List incorrect_array;
   final Map<String, dynamic> questiondata;
 
   // int correctAnswers;
   ResultPage(
       {Key key,
-      @required this.questionvalue,
+      @required this.total,
+      @required this.ptotal,
+      @required this.area,
+      @required this.parea,
       @required this.correct,
+      @required this.pcorrect,
       @required this.incorrect,
+      @required this.pincorrect,
+      @required this.pnotanswered,
+      @required this.pscore,
       @required this.incorrect_array,
       @required this.questiondata})
       : super(key: key);
@@ -30,17 +39,21 @@ class ResultPage extends StatefulWidget {
 }
 
 class _ResultPageState extends State<ResultPage> {
-  final LocalStorage result = new LocalStorage('quiz_result');
+  String area = '';
+  String total = '';
+  String correct = '';
+  String incorrect = '';
+  String notanswered = '';
+  String score = '';
   List<Widget> explanation() {
-  print(result);
     this.widget.incorrect_array.sort();
-    var index=0;
+    var index = 0;
     final widgets = List<Widget>()
       ..add(Container(
         alignment: Alignment.center,
         padding: const EdgeInsets.all(24),
         child: Text(
-          'Total Questions: ${this.widget.questionvalue}',
+          'Total Questions: ${this.widget.total}',
           style: TextStyle(
               color: Colors.lime,
               fontSize: 22,
@@ -77,9 +90,9 @@ class _ResultPageState extends State<ResultPage> {
         )
         ..addAll(
           this.widget.incorrect_array.map((i) {
-            print(i);
             index++;
-            return detail(index, i, this.widget.questiondata['$i']['explanation']);
+            return detail(
+                index, i, this.widget.questiondata['$i']['explanation']);
           }),
         );
     }
@@ -111,14 +124,14 @@ class _ResultPageState extends State<ResultPage> {
                 flex: 8,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child:
-                      Text('${this.widget.questiondata[index.toString()]["question"]}',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize:16,
-                            fontWeight: FontWeight.w600,
-                          ),
-                          textAlign: TextAlign.center),
+                  child: Text(
+                      '${this.widget.questiondata[index.toString()]["question"]}',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      textAlign: TextAlign.center),
                 )),
           ],
         ),
@@ -135,21 +148,37 @@ class _ResultPageState extends State<ResultPage> {
       ],
     );
   }
+
+  resultsave() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString('total', this.widget.total);
+    prefs.setString('correct', this.widget.correct.toString());
+    prefs.setString('incorrect', this.widget.incorrect.toString());
+    prefs.setString('notanswered',(int.parse(this.widget.total) -this.widget.incorrect -this.widget.correct).toString());
+    prefs.setString('score',(this.widget.correct / int.parse(this.widget.total) * 100).toInt().toString());
+    prefs.setString('area', this.widget.area);
+  }
+
   @override
   void setState(fn) {
     if (mounted) {
       super.setState(fn);
     }
   }
+
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
     final TextStyle titleStyle = TextStyle(
-        color: Colors.black87, fontSize: 20.0, fontWeight: FontWeight.w500);
-    final TextStyle trailingStyle = TextStyle(
+        color: Colors.black87, fontSize: 16.0, fontWeight: FontWeight.w500);
+    final TextStyle currentStyle = TextStyle(
         color: Theme.of(context).primaryColor,
-        fontSize: 24.0,
+        fontSize: 20.0,
+        fontWeight: FontWeight.bold);
+    final TextStyle previousStyle = TextStyle(
+        color: Theme.of(context).cursorColor,
+        fontSize: 20.0,
         fontWeight: FontWeight.bold);
 
     return DefaultTabController(
@@ -169,98 +198,198 @@ class _ResultPageState extends State<ResultPage> {
                   Theme.of(context).cursorColor
                 ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
                 child: SingleChildScrollView(
-                  padding: const EdgeInsets.fromLTRB(16.0,40.0,16.0,16.0),
+                  padding: const EdgeInsets.fromLTRB(16.0, 40.0, 16.0, 16.0),
                   child: Column(
                     children: <Widget>[
                       Container(
-                        height: screenHeight*0.13,
-                        child:Card(
+                        height: screenHeight * 0.13,
+                        child: Card(
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10.0)),
                           elevation: 10,
-                          child: Center(child:ListTile(
-                            title: Text("Total Questions", style: titleStyle),
-                            trailing: Text("${this.widget.questionvalue}",
-                                style: trailingStyle),
+                          child: Center(
+                              child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text("Total Questions", style: titleStyle),
+                              Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment:MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    this.widget.parea == this.widget.area
+                                        ? Expanded(
+                                            flex: 5,
+                                            child: Center(
+                                                child: Text(
+                                                    "${this.widget.ptotal}",
+                                                    style: previousStyle)))
+                                        : Text(' '),
+                                    Expanded(
+                                        flex: 5,
+                                        child: Center(
+                                            child: Text("${this.widget.total}",
+                                                style: currentStyle))),
+                                  ])
+                            ],
                           )),
                         ),
                       ),
                       SizedBox(height: 10.0),
                       Container(
-                        height: screenHeight*0.13,
-                        child:Card(
+                        height: screenHeight * 0.13,
+                        child: Card(
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10.0)),
                           elevation: 10,
-                          child: Center(child:ListTile(
-                            title: Text("Score", style: titleStyle),
-                            trailing: Text(
-                                "${(this.widget.correct / int.parse(this.widget.questionvalue) * 100).toInt()}%",
-                                style: trailingStyle),
+                          child: Center(
+                              child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text("Score", style: titleStyle),
+                              Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment:MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    this.widget.parea == this.widget.area
+                                        ? Expanded(
+                                            flex: 5,
+                                            child: Center(
+                                                child: Text(
+                                                    "${this.widget.pscore}",
+                                                    style: previousStyle)))
+                                        : Text(' '),
+                                    Expanded(
+                                        flex: 5,
+                                        child: Center(
+                                            child: Text(
+                                                "${(this.widget.correct / int.parse(this.widget.total) * 100).toInt()}%",
+                                                style: currentStyle))),
+                                  ])
+                            ],
                           )),
                         ),
                       ),
                       SizedBox(height: 10.0),
                       Container(
-                        height: screenHeight*0.13,
-                        child:Card(
+                        height: screenHeight * 0.13,
+                        child: Card(
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10.0)),
                           elevation: 10,
-                          child: Center(child:ListTile(
-                            title: Text("Correct Answers", style: titleStyle),
-                            trailing: Text("${this.widget.correct.toString()}",
-                                style: trailingStyle),
+                          child: Center(
+                              child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text("Correct Answers", style: titleStyle),
+                              Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment:MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    this.widget.parea == this.widget.area
+                                        ? Expanded(
+                                            flex: 5,
+                                            child: Center(
+                                                child: Text(
+                                                    "${this.widget.pscore}",
+                                                    style: previousStyle)))
+                                        : Text(' '),
+                                    Expanded(
+                                        flex: 5,
+                                        child: Center(
+                                            child: Text(
+                                                "${this.widget.correct.toString()}",
+                                                style: currentStyle))),
+                                  ])
+                            ],
                           )),
                         ),
                       ),
                       SizedBox(height: 10.0),
                       Container(
-                        height: screenHeight*0.13,
-                        child:Card(
+                        height: screenHeight * 0.13,
+                        child: Card(
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10.0)),
                           elevation: 10,
-                          child: Center(child:ListTile(
-                            title: Text("Incorrect Answers", style: titleStyle),
-                            trailing: Text("${this.widget.incorrect.toString()}",
-                                style: trailingStyle),
+                          child: Center(
+                              child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text("Incorrec Answers", style: titleStyle),
+                              Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment:MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    this.widget.parea == this.widget.area
+                                        ? Expanded(
+                                            flex: 5,
+                                            child: Center(
+                                                child: Text(
+                                                    "${this.widget.pincorrect}",
+                                                    style: previousStyle)))
+                                        : Text(' '),
+                                    Expanded(
+                                        flex: 5,
+                                        child: Center(
+                                            child: Text(
+                                                "${this.widget.incorrect.toString()}",
+                                                style: currentStyle))),
+                                  ])
+                            ],
                           )),
                         ),
                       ),
                       SizedBox(height: 10.0),
                       Container(
-                        height: screenHeight*0.13,
-                        child:Card(
+                        height: screenHeight * 0.13,
+                        child: Card(
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10.0)),
                           elevation: 10,
-                          child: Center(child:ListTile(
-                            title: Text("Not Answered", style: titleStyle),
-                            trailing: Text(
-                                "${int.parse(this.widget.questionvalue) - this.widget.incorrect - this.widget.correct}",
-                                style: trailingStyle),
+                          child: Center(
+                              child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text("Not Answered", style: titleStyle),
+                              Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment:MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    this.widget.parea == this.widget.area
+                                        ? Expanded(
+                                            flex: 5,
+                                            child: Center(
+                                                child: Text(
+                                                    "${this.widget.pnotanswered}",
+                                                    style: previousStyle)))
+                                        : Text(' '),
+                                    Expanded(
+                                        flex: 5,
+                                        child: Center(
+                                            child: Text(
+                                                "${int.parse(this.widget.total) - this.widget.incorrect - this.widget.correct}",
+                                                style: currentStyle))),
+                                  ])
+                            ],
                           )),
                         ),
                       ),
                       SizedBox(height: 10.0),
-                      
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           SizedBox(
                               width: screenWidth * 0.7,
-                              height: screenHeight*0.08,
+                              height: screenHeight * 0.08,
                               child: RaisedButton(
-                                // padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10.0),
                                 ),
-                                child: Text("Explanation", style: TextStyle(fontSize:20.0),),
-                                onPressed: () => {
-                                  tabController.index = 1
-                                  
-                                },
+                                child: Text(
+                                  "Explanation",
+                                  style: TextStyle(fontSize: 20.0),
+                                ),
+                                onPressed: () => {tabController.index = 1},
                               )),
                         ],
                       )
@@ -268,7 +397,6 @@ class _ResultPageState extends State<ResultPage> {
                   ),
                 ),
               ),
-              
               Container(
                 height: double.infinity,
                 width: double.infinity,
@@ -278,7 +406,6 @@ class _ResultPageState extends State<ResultPage> {
                   Theme.of(context).cursorColor
                 ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
                 child: SingleChildScrollView(
-                  // padding: const EdgeInsets.all(16.0),
                   child: Column(
                     children: [
                       ...explanation(),
@@ -290,7 +417,6 @@ class _ResultPageState extends State<ResultPage> {
                             SizedBox(
                                 width: screenWidth * 0.25,
                                 child: RaisedButton(
-                                  // padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10.0),
                                   ),
@@ -305,7 +431,6 @@ class _ResultPageState extends State<ResultPage> {
                             SizedBox(
                                 width: screenWidth * 0.25,
                                 child: RaisedButton(
-                                  // padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10.0),
                                   ),
@@ -317,27 +442,19 @@ class _ResultPageState extends State<ResultPage> {
                             SizedBox(
                                 width: screenWidth * 0.25,
                                 child: RaisedButton(
-                                  // padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10.0),
                                   ),
                                   child: Text("Save"),
-                                  onPressed: () => {
-                                    Navigator.of(context)
-                                        .pushReplacement(MaterialPageRoute(
-                                      builder: (context) => HomePage(),
-                                    ))
-                                  },
+                                  onPressed: () => {resultsave()},
                                 )),
                           ],
                         ),
-                        
                       )
                     ],
                   ),
                 ),
               ),
-            
             ],
           ),
         );

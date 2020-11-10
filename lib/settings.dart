@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:quiz/result.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -159,15 +160,9 @@ class _SettingPageState extends State<SettingPage> {
         i = random_array[j];
         j++;
       } else {
+        result();
         print(incorrect_array);
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) => ResultPage(
-            correct: correct,
-            questionvalue: questionvalue,
-            incorrect: incorrect,
-            incorrect_array: incorrect_array,
-            questiondata: questiondata),
-        ));
+        
       }
       btncolor["answer a"] = Colors.indigoAccent;
       btncolor["answer b"] = Colors.indigoAccent;
@@ -177,7 +172,25 @@ class _SettingPageState extends State<SettingPage> {
     });
     starttimer();
   }
-
+  result() async {
+    final prefs = await SharedPreferences.getInstance();
+    print(prefs.getString('area'));
+    Navigator.of(context).pushReplacement(MaterialPageRoute(
+      builder: (context) => ResultPage(
+        area: areavalue,
+        parea: prefs.getString('area'),
+        correct: correct,
+        pcorrect: prefs.getString('correct'),
+        total: questionvalue,
+        ptotal: prefs.getString('total'),
+        incorrect: incorrect,
+        pincorrect: prefs.getString('incorrect'),
+        pnotanswered: prefs.getString('notanswered'),
+        pscore: prefs.getString('score'),
+        incorrect_array: incorrect_array,
+        questiondata: questiondata),
+    ));
+  }
   void checkanswer(String k) {
     // in the previous version this was
     // mydata["1"]['correct'] == k
@@ -208,34 +221,49 @@ class _SettingPageState extends State<SettingPage> {
       Timer(Duration(seconds: 1), nextquestion);
     }
   }
+  _read() async {
+        final prefs = await SharedPreferences.getInstance();
+        final key = 'my_int_key';
+        final value = prefs.getInt(key) ?? 0;
+        print('read: $value');
+      }
 
+      _save() async {
+        final prefs = await SharedPreferences.getInstance();
+        final key = 'my_int_key';
+        final value = 42;
+        prefs.setInt(key, value);
+        print('saved $value');
+      }
   Widget choicebutton(String k) {
     final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
     return Padding(
       padding: EdgeInsets.symmetric(
-        vertical: 15.0,
+        vertical: 5.0,
         horizontal: 5.0,
       ),
-      child: MaterialButton(
+      child: SizedBox(
+        width: screenWidth * 0.45,
+        height: screenHeight * 0.25,
+        child:FlatButton(
         onPressed: () => checkanswer(k),
         child: Text(
           questiondata[i.toString()][k],
           style: TextStyle(
             color: Colors.white,
             fontFamily: "Alike",
-            fontSize: 16.0,
+            fontSize: 12.0,
           ),
-          maxLines: 1,
+          maxLines: 10,
         ),
         color: btncolor[k],
         splashColor: Colors.indigo[700],
         highlightColor: Colors.indigo[700],
-        minWidth: screenWidth * 0.45,
-        height: 100.0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20.0)
         ),
-      ),
+      )),
     );
   }
 
@@ -486,40 +514,41 @@ class _SettingPageState extends State<SettingPage> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
                               GestureDetector(
-                                  child: Container(
-                                    alignment: Alignment.center,
-                                    height: 36,
-                                    width: 90,
-                                    decoration: BoxDecoration(
-                                        color: Theme.of(context).cardColor,
-                                        borderRadius: const BorderRadius.all(
-                                          Radius.circular(35),
-                                        ),
-                                        boxShadow: [
-                                          BoxShadow(
-                                              color: Colors.blue,
-                                              blurRadius: 2.0,
-                                              spreadRadius: 2.5),
-                                        ]),
-                                    child: const Text(
-                                      'Play Quiz',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w500,
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  height: 36,
+                                  width: 90,
+                                  decoration: BoxDecoration(
+                                      color: Theme.of(context).cardColor,
+                                      borderRadius: const BorderRadius.all(
+                                        Radius.circular(35),
                                       ),
+                                      boxShadow: [
+                                        BoxShadow(
+                                            color: Colors.blue,
+                                            blurRadius: 2.0,
+                                            spreadRadius: 2.5),
+                                      ]),
+                                  child: const Text(
+                                    'Play Quiz',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w500,
                                     ),
                                   ),
-                                  onTap: () => {
-                                        if (int.parse(this.questionvalue) <=
-                                            this.maxquestion)
-                                          {
-                                            starttest(),
-                                            Timer(Duration(seconds: 1), () {
-                                              tabController.index = 1;
-                                            })
-                                          }
-                                      }),
+                                ),
+                                onTap: () => {
+                                  if (int.parse(this.questionvalue) <= this.maxquestion)
+                                    {
+                                      starttest(),
+                                      Timer(Duration(seconds: 1), () {
+                                        tabController.index = 1;
+                                      })
+                                    }
+                                }
+                              ),
                             ],
-                          )
+                          ),
+                                                    
                         ],
                       ),
                     ),
@@ -530,7 +559,7 @@ class _SettingPageState extends State<SettingPage> {
                   ? Column(
                       children: <Widget>[
                         Expanded(
-                          flex: 2,
+                          flex: 1,
                           child: Container(
                             alignment: Alignment.bottomCenter,
                             child: Center(
@@ -576,7 +605,7 @@ class _SettingPageState extends State<SettingPage> {
                           child: Text('image'),
                         ),
                         Expanded(
-                          flex: 5,
+                          flex: 6,
                           child: AbsorbPointer(
                             absorbing: disableAnswer,
                             child: Container(
