@@ -255,7 +255,7 @@ class _ResultPageState extends State<ResultPage> {
                                             flex: 5,
                                             child: Center(
                                                 child: Text(
-                                                    "${this.widget.pscore}",
+                                                    "${this.widget.pscore}%",
                                                     style: previousStyle)))
                                         : Text(' '),
                                     Expanded(
@@ -290,7 +290,7 @@ class _ResultPageState extends State<ResultPage> {
                                             flex: 5,
                                             child: Center(
                                                 child: Text(
-                                                    "${this.widget.pscore}",
+                                                    "${this.widget.pcorrect}",
                                                     style: previousStyle)))
                                         : Text(' '),
                                     Expanded(
