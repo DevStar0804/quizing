@@ -1,4 +1,4 @@
-name: test_flutter
+name: quiz
 description: A new Flutter application.
 
 # The following line prevents the package from being accidentally published to
@@ -27,6 +27,7 @@ dependencies:
   http: ^0.12.0
   flutter_easyloading: ^2.0.1
   numberpicker: ^1.2.1
+  localstorage: ^3.0.0
 
 
   # The following adds the Cupertino Icons font to your application.

@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:test_flutter/settings.dart';
+import 'package:quiz/settings.dart';
 
 
 class SplashScreen extends StatefulWidget{

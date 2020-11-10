@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:test_flutter/quizpage.dart';
+import 'package:quiz/quizpage.dart';
 
 
 class SettingPage extends StatefulWidget {

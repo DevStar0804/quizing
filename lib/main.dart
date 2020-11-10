@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:test_flutter/splash.dart';
+import 'package:quiz/splash.dart';
 
 
 void main() => runApp(MyApp());

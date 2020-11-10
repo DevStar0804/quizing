@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:test_flutter/settings.dart';
+import 'package:quiz/settings.dart';
 import 'dart:io';
 
 class ResultPage extends StatefulWidget {
@@ -77,14 +77,14 @@ class _ResultPageState extends State<ResultPage> {
           this.widget.incorrect_array.map((i) {
             print(i);
             index++;
-            return detail(index, this.widget.questiondata['$i']['explanation']);
+            return detail(index, i, this.widget.questiondata['$i']['explanation']);
           }),
         );
     }
     return widgets;
   }
 
-  Widget detail(int index, String explanation) {
+  Widget detail(int number, int index, String explanation) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -96,7 +96,7 @@ class _ResultPageState extends State<ResultPage> {
                 backgroundColor: Colors.cyanAccent,
                 radius: 12.0,
                 child: Text(
-                  '$index',
+                  '$number',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 14,

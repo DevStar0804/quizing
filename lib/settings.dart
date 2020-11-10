@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:numberpicker/numberpicker.dart';
-import 'package:test_flutter/result.dart';
+import 'package:quiz/result.dart';
 
 class HomePage extends StatelessWidget {
   @override
