@@ -53,14 +53,17 @@ class _SettingPageState extends State<SettingPage> {
   Map<String, dynamic> questiondata; //real quiz data
   String timevalue = "30"; // set the initial value of countdown selection
   String randomvalue = "no"; // set the initial value of randomizing into "no"
-  String areavalue = "all"; // set the initial value of category into "all category"
-  String questionvalue = "2"; // set the initial number of questions into 2 questions
+  String areavalue =
+      "all"; // set the initial value of category into "all category"
+  String questionvalue =
+      "2"; // set the initial number of questions into 2 questions
 
   Color colortoshow = Colors.indigoAccent; // initial choice button color
   Color right = Colors.green; // choice button color when answer is right
   Color wrong = Colors.red; // choice button color when answer is wrong
   bool isQuiz = false; // the value informing to start quiz
-  bool disableAnswer = false; // the value which be able to click choice button or not
+  bool disableAnswer =
+      false; // the value which be able to click choice button or not
   int correct = 0; // number of correct answers
   int incorrect = 0; // number of wrong answers
   int maxquestion = 1; // initial value of max questions
@@ -69,7 +72,7 @@ class _SettingPageState extends State<SettingPage> {
   int i = 1; // initial No. of quiz data
   int j = 1; // random array index
   int timer = 30; // intial value of countdown
-  List random_array; 
+  List random_array;
   Timer test;
   List incorrect_array = [];
 
@@ -89,12 +92,11 @@ class _SettingPageState extends State<SettingPage> {
     var rand = new Random();
     var l = 1;
     for (int i = 0;;) {
-      if (this.randomvalue == "yes"){
+      if (this.randomvalue == "yes") {
         distinctIds.add(rand.nextInt(maxquestion) * 1 + 1);
         number.add(l);
         l++;
-      }
-      else {
+      } else {
         distinctIds.add(l);
         l++;
       }
@@ -162,7 +164,6 @@ class _SettingPageState extends State<SettingPage> {
       } else {
         result();
         print(incorrect_array);
-        
       }
       btncolor["answer a"] = Colors.indigoAccent;
       btncolor["answer b"] = Colors.indigoAccent;
@@ -172,25 +173,39 @@ class _SettingPageState extends State<SettingPage> {
     });
     starttimer();
   }
+
   result() async {
     final prefs = await SharedPreferences.getInstance();
-    print(prefs.getString('area'));
+    print(prefs.containsKey('area'));
     Navigator.of(context).pushReplacement(MaterialPageRoute(
       builder: (context) => ResultPage(
-        area: areavalue,
-        parea: prefs.getString('area'),
-        correct: correct,
-        pcorrect: prefs.getString('correct'),
-        total: questionvalue,
-        ptotal: prefs.getString('total'),
-        incorrect: incorrect,
-        pincorrect: prefs.getString('incorrect'),
-        pnotanswered: prefs.getString('notanswered'),
-        pscore: prefs.getString('score'),
-        incorrect_array: incorrect_array,
-        questiondata: questiondata),
+          area: areavalue,
+          parea: prefs.containsKey('$areavalue')
+              ? prefs.getString('$areavalue')
+              : '',
+          correct: correct,
+          pcorrect: prefs.containsKey('${this.areavalue}correct')
+              ? prefs.getString('${this.areavalue}correct')
+              : '',
+          total: questionvalue,
+          ptotal: prefs.containsKey('${this.areavalue}total')
+              ? prefs.getString('${this.areavalue}total')
+              : '',
+          incorrect: incorrect,
+          pincorrect: prefs.containsKey('${this.areavalue}incorrect')
+              ? prefs.getString('${this.areavalue}incorrect')
+              : '',
+          pnotanswered: prefs.containsKey('${this.areavalue}notanswered')
+              ? prefs.getString('${this.areavalue}notanswered')
+              : '',
+          pscore: prefs.containsKey('${this.areavalue}score')
+              ? prefs.getString('${this.areavalue}score')
+              : '',
+          incorrect_array: incorrect_array,
+          questiondata: questiondata),
     ));
   }
+
   void checkanswer(String k) {
     // in the previous version this was
     // mydata["1"]['correct'] == k
@@ -221,20 +236,7 @@ class _SettingPageState extends State<SettingPage> {
       Timer(Duration(seconds: 1), nextquestion);
     }
   }
-  _read() async {
-        final prefs = await SharedPreferences.getInstance();
-        final key = 'my_int_key';
-        final value = prefs.getInt(key) ?? 0;
-        print('read: $value');
-      }
 
-      _save() async {
-        final prefs = await SharedPreferences.getInstance();
-        final key = 'my_int_key';
-        final value = 42;
-        prefs.setInt(key, value);
-        print('saved $value');
-      }
   Widget choicebutton(String k) {
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
@@ -244,26 +246,25 @@ class _SettingPageState extends State<SettingPage> {
         horizontal: 5.0,
       ),
       child: SizedBox(
-        width: screenWidth * 0.45,
-        height: screenHeight * 0.25,
-        child:FlatButton(
-        onPressed: () => checkanswer(k),
-        child: Text(
-          questiondata[i.toString()][k],
-          style: TextStyle(
-            color: Colors.white,
-            fontFamily: "Alike",
-            fontSize: 12.0,
-          ),
-          maxLines: 10,
-        ),
-        color: btncolor[k],
-        splashColor: Colors.indigo[700],
-        highlightColor: Colors.indigo[700],
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20.0)
-        ),
-      )),
+          width: screenWidth * 0.45,
+          height: screenHeight * 0.25,
+          child: FlatButton(
+            onPressed: () => checkanswer(k),
+            child: Text(
+              questiondata[i.toString()][k],
+              style: TextStyle(
+                color: Colors.white,
+                fontFamily: "Alike",
+                fontSize: 12.0,
+              ),
+              maxLines: 10,
+            ),
+            color: btncolor[k],
+            splashColor: Colors.indigo[700],
+            highlightColor: Colors.indigo[700],
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0)),
+          )),
     );
   }
 
@@ -289,7 +290,9 @@ class _SettingPageState extends State<SettingPage> {
             if (tabController.index == 0) {
               if (test != null) {
                 test.cancel();
-                j=1; correct =0; incorrect=0;
+                j = 1;
+                correct = 0;
+                incorrect = 0;
                 setState(() {
                   isQuiz = false;
                 });
@@ -298,19 +301,34 @@ class _SettingPageState extends State<SettingPage> {
           }
         });
         return Scaffold(
-          appBar: tabController.index == 0
-              ? AppBar(
-                  backgroundColor: Theme.of(context).cursorColor,
-                  title: Text('Settings'),
-                  centerTitle: true,
-                  elevation: 0,
-                )
-              : null,
           body: TabBarView(
             children: <Widget>[
               Column(
-                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
+                  Container(
+                    padding: const EdgeInsets.all(8.0),
+                    height: 90,
+                    color: Theme.of(context).cursorColor,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Settings',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 24,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
                   Expanded(
                     flex: 6,
                     child: Container(
@@ -338,13 +356,13 @@ class _SettingPageState extends State<SettingPage> {
                               Container(
                                 padding: EdgeInsets.only(top: 40.0),
                                 child: new NumberPicker.horizontal(
-                                        listViewHeight: 30,
-                                        initialValue: int.parse(timevalue),
-                                        minValue: 10,
-                                        maxValue: 180,
-                                        step: 10,
-                                        onChanged: (newValue) => setState(() =>
-                                            timevalue = newValue.toString())),
+                                    listViewHeight: 30,
+                                    initialValue: int.parse(timevalue),
+                                    minValue: 10,
+                                    maxValue: 180,
+                                    step: 10,
+                                    onChanged: (newValue) => setState(
+                                        () => timevalue = newValue.toString())),
                               ),
                             ],
                           ),
@@ -514,41 +532,41 @@ class _SettingPageState extends State<SettingPage> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
                               GestureDetector(
-                                child: Container(
-                                  alignment: Alignment.center,
-                                  height: 36,
-                                  width: 90,
-                                  decoration: BoxDecoration(
-                                      color: Theme.of(context).cardColor,
-                                      borderRadius: const BorderRadius.all(
-                                        Radius.circular(35),
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    height: 36,
+                                    width: 90,
+                                    decoration: BoxDecoration(
+                                        color: Theme.of(context).cardColor,
+                                        borderRadius: const BorderRadius.all(
+                                          Radius.circular(35),
+                                        ),
+                                        boxShadow: [
+                                          BoxShadow(
+                                              color: Colors.blue,
+                                              blurRadius: 2.0,
+                                              spreadRadius: 2.5),
+                                        ]),
+                                    child: const Text(
+                                      'Play Quiz',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w500,
                                       ),
-                                      boxShadow: [
-                                        BoxShadow(
-                                            color: Colors.blue,
-                                            blurRadius: 2.0,
-                                            spreadRadius: 2.5),
-                                      ]),
-                                  child: const Text(
-                                    'Play Quiz',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w500,
                                     ),
                                   ),
-                                ),
-                                onTap: () => {
-                                  if (int.parse(this.questionvalue) <= this.maxquestion)
-                                    {
-                                      starttest(),
-                                      Timer(Duration(seconds: 1), () {
-                                        tabController.index = 1;
-                                      })
-                                    }
-                                }
-                              ),
+                                  onTap: () => {
+                                        if (int.parse(this.questionvalue) <=
+                                            this.maxquestion)
+                                          {
+                                            starttest(),
+                                            Timer(Duration(milliseconds: 300),
+                                                () {
+                                              tabController.index = 1;
+                                            })
+                                          }
+                                      }),
                             ],
                           ),
-                                                    
                         ],
                       ),
                     ),
@@ -558,36 +576,32 @@ class _SettingPageState extends State<SettingPage> {
               isQuiz
                   ? Column(
                       children: <Widget>[
-                        Expanded(
-                          flex: 1,
-                          child: Container(
-                            alignment: Alignment.bottomCenter,
+                        Row(children: [
+                          Padding(
+                            padding: EdgeInsets.only(left: 20, top: 20),
                             child: Center(
                               child: Text(
                                 j.toString() + '/${this.questionvalue}',
-                                style: TextStyle(fontSize: 20.0),
+                                style: TextStyle(fontSize: 16.0),
                               ),
                             ),
                           ),
-                        ),
-                        Expanded(
-                          flex: 1,
-                          child: Container(
-                            alignment: Alignment.topCenter,
+                          Padding(
+                            padding: EdgeInsets.only(left: 100, top: 20),
                             child: Center(
                               child: Text(
                                 timer.toString(),
                                 style: TextStyle(
-                                  fontSize: 40.0,
+                                  fontSize: 32.0,
                                   fontWeight: FontWeight.w700,
                                   fontFamily: 'Times New Roman',
                                 ),
                               ),
                             ),
                           ),
-                        ),
+                        ]),
                         Expanded(
-                          flex: 1,
+                          flex: 2,
                           child: Container(
                             padding: EdgeInsets.all(15.0),
                             alignment: Alignment.centerLeft,

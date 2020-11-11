@@ -151,12 +151,20 @@ class _ResultPageState extends State<ResultPage> {
 
   resultsave() async {
     final prefs = await SharedPreferences.getInstance();
-    prefs.setString('total', this.widget.total);
-    prefs.setString('correct', this.widget.correct.toString());
-    prefs.setString('incorrect', this.widget.incorrect.toString());
-    prefs.setString('notanswered',(int.parse(this.widget.total) -this.widget.incorrect -this.widget.correct).toString());
-    prefs.setString('score',(this.widget.correct / int.parse(this.widget.total) * 100).toInt().toString());
-    prefs.setString('area', this.widget.area);
+    prefs.setString('${this.widget.area}total', this.widget.total);
+    prefs.setString('${this.widget.area}correct', this.widget.correct.toString());
+    prefs.setString('${this.widget.area}incorrect', this.widget.incorrect.toString());
+    prefs.setString('${this.widget.area}notanswered',(int.parse(this.widget.total) -this.widget.incorrect -this.widget.correct).toString());
+    prefs.setString('${this.widget.area}score',(this.widget.correct / int.parse(this.widget.total) * 100).toInt().toString());
+    prefs.setString('${this.widget.area}', this.widget.area);
+  }
+  resultreset() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString('${this.widget.area}total', ' ');
+    prefs.setString('${this.widget.area}correct', ' ');
+    prefs.setString('${this.widget.area}incorrect', ' ');
+    prefs.setString('${this.widget.area}notanswered',' ');
+    prefs.setString('${this.widget.area}score',' ');
   }
 
   @override
@@ -216,7 +224,7 @@ class _ResultPageState extends State<ResultPage> {
                                   mainAxisSize: MainAxisSize.min,
                                   mainAxisAlignment:MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
-                                    this.widget.parea == this.widget.area
+                                    this.widget.ptotal!=''
                                         ? Expanded(
                                             flex: 5,
                                             child: Center(
@@ -250,7 +258,7 @@ class _ResultPageState extends State<ResultPage> {
                                   mainAxisSize: MainAxisSize.min,
                                   mainAxisAlignment:MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
-                                    this.widget.parea == this.widget.area
+                                    this.widget.pscore!=''
                                         ? Expanded(
                                             flex: 5,
                                             child: Center(
@@ -285,7 +293,7 @@ class _ResultPageState extends State<ResultPage> {
                                   mainAxisSize: MainAxisSize.min,
                                   mainAxisAlignment:MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
-                                    this.widget.parea == this.widget.area
+                                    this.widget.pcorrect!=''
                                         ? Expanded(
                                             flex: 5,
                                             child: Center(
@@ -320,7 +328,7 @@ class _ResultPageState extends State<ResultPage> {
                                   mainAxisSize: MainAxisSize.min,
                                   mainAxisAlignment:MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
-                                    this.widget.parea == this.widget.area
+                                    this.widget.pincorrect!=''
                                         ? Expanded(
                                             flex: 5,
                                             child: Center(
@@ -355,7 +363,7 @@ class _ResultPageState extends State<ResultPage> {
                                   mainAxisSize: MainAxisSize.min,
                                   mainAxisAlignment:MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
-                                    this.widget.parea == this.widget.area
+                                    this.widget.pnotanswered!=''
                                         ? Expanded(
                                             flex: 5,
                                             child: Center(
@@ -415,7 +423,7 @@ class _ResultPageState extends State<ResultPage> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             SizedBox(
-                                width: screenWidth * 0.25,
+                                width: screenWidth * 0.2,
                                 child: RaisedButton(
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10.0),
@@ -429,7 +437,7 @@ class _ResultPageState extends State<ResultPage> {
                                   },
                                 )),
                             SizedBox(
-                                width: screenWidth * 0.25,
+                                width: screenWidth * 0.2,
                                 child: RaisedButton(
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10.0),
@@ -440,12 +448,21 @@ class _ResultPageState extends State<ResultPage> {
                                   },
                                 )),
                             SizedBox(
-                                width: screenWidth * 0.25,
+                                width: screenWidth * 0.2,
                                 child: RaisedButton(
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10.0),
                                   ),
                                   child: Text("Save"),
+                                  onPressed: () => {resultsave()},
+                                )),
+                            SizedBox(
+                                width: screenWidth * 0.2,
+                                child: RaisedButton(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                  child: Text("Reset"),
                                   onPressed: () => {resultsave()},
                                 )),
                           ],
