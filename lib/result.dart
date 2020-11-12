@@ -4,18 +4,18 @@ import 'dart:io';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ResultPage extends StatefulWidget {
-  final String total;
-  final String ptotal;
-  final String area;
-  final String parea;
-  final int correct;
-  final String pcorrect;
-  final int incorrect;
-  final String pincorrect;
-  final String pnotanswered;
-  final String pscore;
-  final List incorrect_array;
-  final Map<String, dynamic> questiondata;
+  final String total; // current total questions
+  final String ptotal; // previous total questions
+  final String area; // current category
+  final String parea; // previous category
+  final int correct; // current number of correct answers
+  final String pcorrect; // previous number of correct answers
+  final int incorrect; // current number of incorrect answers
+  final String pincorrect; // previous number of incorrect answers
+  final String pnotanswered; // previous number of not answers 
+  final String pscore; // previous score
+  final List incorrect_array; // current incorrect answers list
+  final Map<String, dynamic> questiondata; // current quiz data
 
   // int correctAnswers;
   ResultPage(
@@ -39,12 +39,6 @@ class ResultPage extends StatefulWidget {
 }
 
 class _ResultPageState extends State<ResultPage> {
-  String area = '';
-  String total = '';
-  String correct = '';
-  String incorrect = '';
-  String notanswered = '';
-  String score = '';
 
   // explanations widget
   List<Widget> explanations() {
