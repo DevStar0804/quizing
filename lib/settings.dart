@@ -23,13 +23,13 @@ class HomePage extends StatelessWidget {
             child: CircularProgressIndicator(),
           );
         } else {
-          mydata.forEach((key, value) => {
-                value['answer a'] = value['answer a'].toString(),
-                value['answer b'] = value['answer b'].toString(),
-                value['answer c'] = value['answer c'].toString(),
-                value['answer d'] = value['answer d'].toString(),
-                value['area'] = value['area'].toString(),
-              });
+          // mydata.forEach((key, value) => {
+          //       value['answer a'] = value['answer a'].toString(),
+          //       value['answer b'] = value['answer b'].toString(),
+          //       value['answer c'] = value['answer c'].toString(),
+          //       value['answer d'] = value['answer d'].toString(),
+          //       value['area'] = value['area'].toString(),
+          //     });
           return SettingPage(mydata: mydata);
         }
       },
@@ -599,7 +599,7 @@ class _SettingPageState extends State<SettingPage> {
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.only(left: 100, top: 20),
+                            padding: EdgeInsets.only(left: 115, top: 20),
                             child: Center(
                               child: Text(
                                 timer.toString(),
