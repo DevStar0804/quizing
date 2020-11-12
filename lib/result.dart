@@ -17,7 +17,6 @@ class ResultPage extends StatefulWidget {
   final List incorrect_array; // current incorrect answers list
   final Map<String, dynamic> questiondata; // current quiz data
 
-  // int correctAnswers;
   ResultPage(
       {Key key,
       @required this.total,
@@ -100,13 +99,14 @@ class _ResultPageState extends State<ResultPage> {
 
   //explanation widget
   Widget detail(int number, int index, String explanation) {
+    String correct = "answer ${this.widget.questiondata['$index']['correct']}";
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Row(
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.only(left: 8.0, right: 4.0),
+              padding: const EdgeInsets.only(left: 8.0),
               child: CircleAvatar(
                 backgroundColor: Colors.deepPurple,
                 radius: 12.0,
@@ -135,13 +135,31 @@ class _ResultPageState extends State<ResultPage> {
                 )),
           ],
         ),
+        
+        Row(
+          children: <Widget>[
+            Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                      '${this.widget.questiondata[index.toString()][correct]}',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      textAlign: TextAlign.center),
+                )),
+          ],
+        ),
+        
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Padding(
               padding:
                   const EdgeInsets.symmetric(vertical: 10.0, horizontal: 30.0),
-              child: Text('${this.widget.questiondata['1']['explanation']}'),
+              child: Text('$explanation'),
             ),
           ],
         )

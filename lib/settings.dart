@@ -164,7 +164,6 @@ class _SettingPageState extends State<SettingPage> {
         j++;
       } else {
         result();
-        print(incorrect_array);
       }
       btncolor["answer a"] = Colors.indigoAccent;
       btncolor["answer b"] = Colors.indigoAccent;
@@ -179,7 +178,6 @@ class _SettingPageState extends State<SettingPage> {
   // this function transforms the variables to result page
   result() async {
     final prefs = await SharedPreferences.getInstance();
-    print(prefs.containsKey('area'));
     Navigator.of(context).pushReplacement(MaterialPageRoute(
       builder: (context) => ResultPage(
           area: areavalue,
@@ -212,20 +210,20 @@ class _SettingPageState extends State<SettingPage> {
   // this function is called when click the choice button, confirm the answer whether is right or not
   void checkanswer(String k) {
     // in the previous version this was
-    // mydata["1"]['correct'] == k
+    // questiondata[i.toString()]['correct'] == k
     // which i forgot to change
     // so nake sure that this is now corrected
     if (test != null) {
       if ('answer ' + questiondata[i.toString()]['correct'] == k) {
         // just a print sattement to check the correct working
-        // debugPrint(mydata[2][i.toString()] + " is equal to " + mydata[1][i.toString()][k]);
+        // debugPrint('answer'+questiondata[i.toString()]['correct'] is equal to k);
         // changing the color variable to be green
         colortoshow = right;
         correct++;
         incorrect_array.removeWhere((item) => item == i);
       } else {
         // just a print sattement to check the correct working
-        // debugPrint(mydata[2]["1"] + " is equal to " + mydata[1]["1"][k]);
+        // debugPrint('answer'+questiondata[i.toString()]['correct'] is equal to k);
         colortoshow = wrong;
         incorrect++;
       }
@@ -336,47 +334,18 @@ class _SettingPageState extends State<SettingPage> {
                       ],
                     ),
                   ),
+                  
                   Expanded(
                     flex: 6,
                     child: Container(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
+                          
                           Row(
                             children: <Widget>[
                               const Padding(
-                                padding:
-                                    EdgeInsets.fromLTRB(8.0, 48.0, 8.0, 8.0),
-                                child: Icon(Icons.timer),
-                              ),
-                              const Padding(
-                                padding:
-                                    EdgeInsets.fromLTRB(8.0, 48.0, 8.0, 8.0),
-                                child: Text(
-                                  'Time per Question:',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 16,
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                padding: EdgeInsets.only(top: 40.0),
-                                child: new NumberPicker.horizontal(
-                                    listViewHeight: 30,
-                                    initialValue: int.parse(timevalue),
-                                    minValue: 10,
-                                    maxValue: 180,
-                                    step: 10,
-                                    onChanged: (newValue) => setState(
-                                        () => timevalue = newValue.toString())),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: <Widget>[
-                              const Padding(
-                                padding: EdgeInsets.all(8.0),
+                                padding: EdgeInsets.fromLTRB(8.0, 48.0, 8.0, 8.0),
                                 child: Text(
                                   'Max Questions :',
                                   style: TextStyle(
@@ -387,7 +356,7 @@ class _SettingPageState extends State<SettingPage> {
                               ),
                               Expanded(
                                   child: Padding(
-                                padding: EdgeInsets.all(8.0),
+                                padding: EdgeInsets.fromLTRB(8.0, 48.0, 8.0, 8.0),
                                 child: Text(
                                   '${this.maxquestion.toString()}',
                                   style: TextStyle(
@@ -397,6 +366,7 @@ class _SettingPageState extends State<SettingPage> {
                               )),
                             ],
                           ),
+                          
                           Row(
                             children: <Widget>[
                               const Padding(
@@ -456,6 +426,7 @@ class _SettingPageState extends State<SettingPage> {
                               ),
                             ],
                           ),
+                          
                           Row(
                             children: <Widget>[
                               const Padding(
@@ -486,6 +457,39 @@ class _SettingPageState extends State<SettingPage> {
                               ),
                             ],
                           ),
+                          
+                          Row(
+                            children: <Widget>[
+                              const Padding(
+                                padding:
+                                    EdgeInsets.all(8.0),
+                                child: Icon(Icons.timer),
+                              ),
+                              const Padding(
+                                padding:
+                                    EdgeInsets.all(8.0),
+                                child: Text(
+                                  'Time per Question:',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                padding: EdgeInsets.only(top: 8.0),
+                                child: new NumberPicker.horizontal(
+                                    listViewHeight: 30,
+                                    initialValue: int.parse(timevalue),
+                                    minValue: 10,
+                                    maxValue: 180,
+                                    step: 10,
+                                    onChanged: (newValue) => setState(
+                                        () => timevalue = newValue.toString())),
+                              ),
+                            ],
+                          ),
+                          
                           Row(children: <Widget>[
                             const Padding(
                               padding: EdgeInsets.all(8.0),
@@ -528,6 +532,7 @@ class _SettingPageState extends State<SettingPage> {
                       ),
                     ),
                   ),
+                  
                   Expanded(
                     flex: 4,
                     child: Container(
