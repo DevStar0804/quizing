@@ -160,11 +160,11 @@ class _ResultPageState extends State<ResultPage> {
   }
   resultreset() async {
     final prefs = await SharedPreferences.getInstance();
-    prefs.setString('${this.widget.area}total', ' ');
-    prefs.setString('${this.widget.area}correct', ' ');
-    prefs.setString('${this.widget.area}incorrect', ' ');
-    prefs.setString('${this.widget.area}notanswered',' ');
-    prefs.setString('${this.widget.area}score',' ');
+    prefs.setString('${this.widget.area}total', '');
+    prefs.setString('${this.widget.area}correct', '');
+    prefs.setString('${this.widget.area}incorrect', '');
+    prefs.setString('${this.widget.area}notanswered','');
+    prefs.setString('${this.widget.area}score','');
   }
 
   @override
@@ -463,7 +463,7 @@ class _ResultPageState extends State<ResultPage> {
                                     borderRadius: BorderRadius.circular(10.0),
                                   ),
                                   child: Text("Reset"),
-                                  onPressed: () => {resultsave()},
+                                  onPressed: () => {resultreset()},
                                 )),
                           ],
                         ),

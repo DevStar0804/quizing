@@ -616,7 +616,13 @@ class _SettingPageState extends State<SettingPage> {
                         ),
                         Expanded(
                           flex: 1,
-                          child: Text('image'),
+                          child: Center(
+                            child: Image(
+                              image: AssetImage('assets/filled.png'),
+                              // width: 20,
+                              // height: 20,
+                            ),
+                          ),
                         ),
                         Expanded(
                           flex: 6,
