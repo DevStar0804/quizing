@@ -144,7 +144,7 @@ class _ResultPageState extends State<ResultPage> {
                   child: Text(
                       '${this.widget.questiondata[index.toString()][correct]}',
                       style: TextStyle(
-                        color: Colors.white,
+                        color: Colors.yellow,
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
                       ),
