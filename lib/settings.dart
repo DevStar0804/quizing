@@ -2,9 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:quiz/result.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -18,7 +16,7 @@ class HomePage extends StatelessWidget {
       future: DefaultAssetBundle.of(context)
           .loadString("assets/examplecsvjson.json", cache: false),
       builder: (context, snapshot) {
-        Map<String, dynamic> mydata = json.decode(snapshot.data.toString());
+        Map<String, dynamic> mydata = json.decode(snapshot.data.toString());  //JSON data
 
         if (mydata == null) {
           return Center(
@@ -72,10 +70,11 @@ class _SettingPageState extends State<SettingPage> {
   int i = 1; // initial No. of quiz data
   int j = 1; // random array index
   int timer = 30; // intial value of countdown
-  List random_array;
-  Timer test;
-  List incorrect_array = [];
-
+  List random_array; //randomizing questions list
+  Timer test; // quiz Timer
+  List incorrect_array = []; // incorrect answers and not answered list
+  
+  // choice button initial color
   Map<String, Color> btncolor = {
     "answer a": Colors.indigoAccent,
     "answer b": Colors.indigoAccent,
@@ -83,14 +82,14 @@ class _SettingPageState extends State<SettingPage> {
     "answer d": Colors.indigoAccent,
   };
 
-  bool canceltimer = false;
+  bool canceltimer = false; // initial value which be called when checking the answer
   // this function is called when a quiz is started.
   // this function returns random questions.
   genrandomarray() {
-    var distinctIds = [];
-    var number = [];
-    var rand = new Random();
-    var l = 1;
+    var distinctIds = []; // randomizing questions index list
+    var number = []; // randomizing questions index list
+    var rand = new Random(); // 0~1 random value
+    var l = 1; //question index value
     for (int i = 0;;) {
       if (this.randomvalue == "yes") {
         distinctIds.add(rand.nextInt(maxquestion) * 1 + 1);
@@ -110,22 +109,21 @@ class _SettingPageState extends State<SettingPage> {
     }
     setState(() {
       i = random_array[0];
-      // incorrect_array = random_array;
     });
-    print(random_array);
   }
 
+  // this function is called when start the quiz
   void starttest() {
     this.isQuiz = true;
     starttimer();
     genrandomarray();
   }
 
+  // this fucntion is called when the page is loaded
   @override
   void initState() {
     this.maxquestion = mydata.length;
     this.questiondata = mydata;
-    // this.questionvalue = mydata.length.toString();
     super.initState();
   }
 
@@ -137,6 +135,8 @@ class _SettingPageState extends State<SettingPage> {
     }
   }
 
+  // this function is called when start the quiz
+  // runs countdown
   void starttimer() async {
     const onesec = Duration(seconds: 1);
     timer = int.parse(this.timevalue);
@@ -154,6 +154,7 @@ class _SettingPageState extends State<SettingPage> {
     });
   }
 
+  // this function is called after check the answer
   void nextquestion() {
     canceltimer = false;
     timer = int.parse(this.timevalue);
@@ -174,6 +175,8 @@ class _SettingPageState extends State<SettingPage> {
     starttimer();
   }
 
+  // this function is called when finish the quiz
+  // this function transforms the variables to result page
   result() async {
     final prefs = await SharedPreferences.getInstance();
     print(prefs.containsKey('area'));
@@ -206,6 +209,7 @@ class _SettingPageState extends State<SettingPage> {
     ));
   }
 
+  // this function is called when click the choice button, confirm the answer whether is right or not
   void checkanswer(String k) {
     // in the previous version this was
     // mydata["1"]['correct'] == k
@@ -237,6 +241,7 @@ class _SettingPageState extends State<SettingPage> {
     }
   }
 
+  // choice button widget
   Widget choicebutton(String k) {
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
@@ -268,6 +273,7 @@ class _SettingPageState extends State<SettingPage> {
     );
   }
 
+  // category dropdown widget
   Widget dropdownmenuitem(String text, String value) {
     return DropdownMenuItem<String>(
       child: Row(
@@ -279,6 +285,7 @@ class _SettingPageState extends State<SettingPage> {
     );
   }
 
+  // overriding the main page
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
