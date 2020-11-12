@@ -140,7 +140,7 @@ class _ResultPageState extends State<ResultPage> {
           children: <Widget>[
             Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.fromLTRB(32.0,8.0,8.0,8.0),
                   child: Text(
                       '${this.widget.questiondata[index.toString()][correct]}',
                       style: TextStyle(
