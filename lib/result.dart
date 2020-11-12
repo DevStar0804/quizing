@@ -45,9 +45,12 @@ class _ResultPageState extends State<ResultPage> {
   String incorrect = '';
   String notanswered = '';
   String score = '';
-  List<Widget> explanation() {
+
+  // explanations widget
+  List<Widget> explanations() {
     this.widget.incorrect_array.sort();
     var index = 0;
+    // explanations title
     final widgets = List<Widget>()
       ..add(Container(
         alignment: Alignment.center,
@@ -61,6 +64,7 @@ class _ResultPageState extends State<ResultPage> {
               fontStyle: FontStyle.italic),
         ),
       ));
+    // explanations container
     if (this.widget.incorrect_array.isNotEmpty) {
       widgets
         ..add(
@@ -88,6 +92,7 @@ class _ResultPageState extends State<ResultPage> {
             ),
           ),
         )
+        // explanation
         ..addAll(
           this.widget.incorrect_array.map((i) {
             index++;
@@ -99,6 +104,7 @@ class _ResultPageState extends State<ResultPage> {
     return widgets;
   }
 
+  //explanation widget
   Widget detail(int number, int index, String explanation) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -149,6 +155,8 @@ class _ResultPageState extends State<ResultPage> {
     );
   }
 
+  // this function is called when click the save button
+  // save the result data
   resultsave() async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setString('${this.widget.area}total', this.widget.total);
@@ -158,6 +166,9 @@ class _ResultPageState extends State<ResultPage> {
     prefs.setString('${this.widget.area}score',(this.widget.correct / int.parse(this.widget.total) * 100).toInt().toString());
     prefs.setString('${this.widget.area}', this.widget.area);
   }
+
+  // this function is called when click the reset button
+  // initialize the previous result data
   resultreset() async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setString('${this.widget.area}total', '');
@@ -167,6 +178,7 @@ class _ResultPageState extends State<ResultPage> {
     prefs.setString('${this.widget.area}score','');
   }
 
+  // overriding the setstate function to be called only if mounted
   @override
   void setState(fn) {
     if (mounted) {
@@ -174,6 +186,7 @@ class _ResultPageState extends State<ResultPage> {
     }
   }
 
+  // overriding the main page
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
@@ -197,6 +210,7 @@ class _ResultPageState extends State<ResultPage> {
         return Scaffold(
           body: TabBarView(
             children: <Widget>[
+              // previous and current result tab
               Container(
                 height: double.infinity,
                 width: double.infinity,
@@ -209,6 +223,7 @@ class _ResultPageState extends State<ResultPage> {
                   padding: const EdgeInsets.fromLTRB(16.0, 40.0, 16.0, 16.0),
                   child: Column(
                     children: <Widget>[
+                      // total questions container
                       Container(
                         height: screenHeight * 0.13,
                         child: Card(
@@ -243,6 +258,7 @@ class _ResultPageState extends State<ResultPage> {
                         ),
                       ),
                       SizedBox(height: 10.0),
+                      // score container
                       Container(
                         height: screenHeight * 0.13,
                         child: Card(
@@ -278,6 +294,7 @@ class _ResultPageState extends State<ResultPage> {
                         ),
                       ),
                       SizedBox(height: 10.0),
+                      // correct answers container
                       Container(
                         height: screenHeight * 0.13,
                         child: Card(
@@ -313,6 +330,7 @@ class _ResultPageState extends State<ResultPage> {
                         ),
                       ),
                       SizedBox(height: 10.0),
+                      // incorrect answers container
                       Container(
                         height: screenHeight * 0.13,
                         child: Card(
@@ -348,6 +366,7 @@ class _ResultPageState extends State<ResultPage> {
                         ),
                       ),
                       SizedBox(height: 10.0),
+                      // not answers container
                       Container(
                         height: screenHeight * 0.13,
                         child: Card(
@@ -383,6 +402,7 @@ class _ResultPageState extends State<ResultPage> {
                         ),
                       ),
                       SizedBox(height: 10.0),
+                      // explanation button 
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
@@ -405,6 +425,9 @@ class _ResultPageState extends State<ResultPage> {
                   ),
                 ),
               ),
+              //---------------------------
+
+              // explanation result tab
               Container(
                 height: double.infinity,
                 width: double.infinity,
@@ -416,7 +439,9 @@ class _ResultPageState extends State<ResultPage> {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      ...explanation(),
+                      // expalnations list
+                      ...explanations(),
+                      // buttons container
                       Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: Row(
@@ -472,6 +497,7 @@ class _ResultPageState extends State<ResultPage> {
                   ),
                 ),
               ),
+              //---------------------------
             ],
           ),
         );
