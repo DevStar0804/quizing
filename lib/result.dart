@@ -183,11 +183,11 @@ class _ResultPageState extends State<ResultPage> {
   // initialize the previous result data
   resultreset() async {
     final prefs = await SharedPreferences.getInstance();
-    prefs.setString('${this.widget.area}total', '');
-    prefs.setString('${this.widget.area}correct', '');
-    prefs.setString('${this.widget.area}incorrect', '');
-    prefs.setString('${this.widget.area}notanswered','');
-    prefs.setString('${this.widget.area}score','');
+    prefs.setString('${this.widget.area}total', '0');
+    prefs.setString('${this.widget.area}correct', '0');
+    prefs.setString('${this.widget.area}incorrect', '0');
+    prefs.setString('${this.widget.area}notanswered','0');
+    prefs.setString('${this.widget.area}score','0');
   }
 
   // overriding the setstate function to be called only if mounted

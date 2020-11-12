@@ -183,25 +183,25 @@ class _SettingPageState extends State<SettingPage> {
           area: areavalue,
           parea: prefs.containsKey('$areavalue')
               ? prefs.getString('$areavalue')
-              : '',
+              : '0',
           correct: correct,
           pcorrect: prefs.containsKey('${this.areavalue}correct')
               ? prefs.getString('${this.areavalue}correct')
-              : '',
+              : '0',
           total: questionvalue,
           ptotal: prefs.containsKey('${this.areavalue}total')
               ? prefs.getString('${this.areavalue}total')
-              : '',
+              : '0',
           incorrect: incorrect,
           pincorrect: prefs.containsKey('${this.areavalue}incorrect')
               ? prefs.getString('${this.areavalue}incorrect')
-              : '',
+              : '0',
           pnotanswered: prefs.containsKey('${this.areavalue}notanswered')
               ? prefs.getString('${this.areavalue}notanswered')
-              : '',
+              : '0',
           pscore: prefs.containsKey('${this.areavalue}score')
               ? prefs.getString('${this.areavalue}score')
-              : '',
+              : '0',
           incorrect_array: incorrect_array,
           questiondata: questiondata),
     ));
