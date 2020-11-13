@@ -16,7 +16,7 @@
     "answer c": "3",
     "answer d": "4",
     "correct": "b",
-    "explanation": "The framework forces the root widget to cover the screen, which means the text “Hello, world” ends up centered on screen. The text direction needs to be specified in this instance; when the MaterialApp widget is used, this is taken care of for you, as demonstrated later.",
+    "explanation": " As of Flutter’s 1.19.0 dev release, the Flutter SDK contains the dart command alongside the flutter command so that you can more easily run Dart command-line programs. Downloading the Flutter SDK also downloads the compatible version of Dart, but if you’ve downloaded the Dart SDK separately, make sure that the Flutter version of dart is first in your path, as the two versions might not be compatible. ",
     "area": "2"
   },
   "3": {
@@ -26,7 +26,7 @@
     "answer c": "3",
     "answer d": "4",
     "correct": "c",
-    "explanation": "The framework forces the root widget to cover the screen, which means the text “Hello, world” ends up centered on screen. The text direction needs to be specified in this instance; when the MaterialApp widget is used, this is taken care of for you, as demonstrated later.",
+    "explanation": "As shown above, the two commands don’t come from the same bin directory. Update your path to use commands from /path-to-flutter-sdk/bin before commands from /usr/local/bin.",
     "area": "3"
   },
   "4": {
@@ -36,7 +36,7 @@
     "answer c": "3",
     "answer d": "4",
     "correct": "d",
-    "explanation": "The framework forces the root widget to cover the screen, which means the text “Hello, world” ends up centered on screen. The text direction needs to be specified in this instance; when the MaterialApp widget is used, this is taken care of for you, as demonstrated later.",
+    "explanation": "This command checks your environment and displays a report of the status of your Flutter installation. Check the output carefully for other software you might need to install or further tasks to perform.",
     "area": "4"
   },
   "5": {
@@ -46,7 +46,7 @@
     "answer c": "3",
     "answer d": "4",
     "correct": "a",
-    "explanation": "The framework forces the root widget to cover the screen, which means the text “Hello, world” ends up centered on screen. The text direction needs to be specified in this instance; when the MaterialApp widget is used, this is taken care of for you, as demonstrated later.",
+    "explanation": "This document is meant for Android developers looking to apply their existing Android knowledge to build mobile apps with Flutter. If you understand the fundamentals of the Android framework then you can use this document as a jump start to Flutter development.",
     "area": "1"
   },
   "6": {
@@ -56,7 +56,7 @@
     "answer c": "3",
     "answer d": "4",
     "correct": "b",
-    "explanation": "The framework forces the root widget to cover the screen, which means the text “Hello, world” ends up centered on screen. The text direction needs to be specified in this instance; when the MaterialApp widget is used, this is taken care of for you, as demonstrated later.",
+    "explanation": "Your Android knowledge and skill set are highly valuable when building with Flutter, because Flutter relies on the mobile operating system for numerous capabilities and configurations.",
     "area": "2"
   },
   "7": {
@@ -66,7 +66,7 @@
     "answer c": "7",
     "answer d": "4",
     "correct": "c",
-    "explanation": "The framework forces the root widget to cover the screen, which means the text “Hello, world” ends up centered on screen. The text direction needs to be specified in this instance; when the MaterialApp widget is used, this is taken care of for you, as demonstrated later.",
+    "explanation": "Flutter is a new way to build UIs for mobile, but it has a plugin system to communicate with Android (and iOS) for non-UI tasks. If you’re an expert with Android, you don’t have to relearn everything to use Flutter.",
     "area": "3"
   },
   "8": {
@@ -76,7 +76,7 @@
     "answer c": "3",
     "answer d": "8",
     "correct": "d",
-    "explanation": "The framework forces the root widget to cover the screen, which means the text “Hello, world” ends up centered on screen. The text direction needs to be specified in this instance; when the MaterialApp widget is used, this is taken care of for you, as demonstrated later.",
+    "explanation": "However, these have a few differences to a View. To start, widgets have a different lifespan: they are immutable and only exist until they need to be changed. Whenever widgets or their state change, Flutter’s framework creates a new tree of widget instances.",
     "area": "4"
   },
   "9": {
@@ -86,7 +86,7 @@
     "answer c": "3",
     "answer d": "4",
     "correct": "a",
-    "explanation": "The framework forces the root widget to cover the screen, which means the text “Hello, world” ends up centered on screen. The text direction needs to be specified in this instance; when the MaterialApp widget is used, this is taken care of for you, as demonstrated later.",
+    "explanation": "Flutter includes the Material Components library. These are widgets that implement the Material Design guidelines. Material Design is a flexible design system optimized for all platforms, including iOS.",
     "area": "1"
   },
   "10": {
@@ -96,7 +96,7 @@
     "answer c": "3",
     "answer d": "4",
     "correct": "b",
-    "explanation": "The framework forces the root widget to cover the screen, which means the text “Hello, world” ends up centered on screen. The text direction needs to be specified in this instance; when the MaterialApp widget is used, this is taken care of for you, as demonstrated later.",
+    "explanation": "But Flutter is flexible and expressive enough to implement any design language. For example, on iOS, you can use the Cupertino widgets to produce an interface that looks like Apple’s iOS design language.",
     "area": "2"
   },
   "11": {
@@ -106,7 +106,7 @@
     "answer c": "11",
     "answer d": "4",
     "correct": "c",
-    "explanation": "The framework forces the root widget to cover the screen, which means the text “Hello, world” ends up centered on screen. The text direction needs to be specified in this instance; when the MaterialApp widget is used, this is taken care of for you, as demonstrated later.",
+    "explanation": "In Android, you update your views by directly mutating them. However, in Flutter, Widgets are immutable and are not updated directly, instead you have to work with the widget’s state.",
     "area": "3"
   },
   "12": {
@@ -116,7 +116,7 @@
     "answer c": "3",
     "answer d": "12",
     "correct": "d",
-    "explanation": "The framework forces the root widget to cover the screen, which means the text “Hello, world” ends up centered on screen. The text direction needs to be specified in this instance; when the MaterialApp widget is used, this is taken care of for you, as demonstrated later.",
+    "explanation": "As you can see, the Text Widget has no state information associated with it, it renders what is passed in its constructors and nothing more.",
     "area": "4"
   },
   "13": {
@@ -126,7 +126,7 @@
     "answer c": "3",
     "answer d": "4",
     "correct": "a",
-    "explanation": "The framework forces the root widget to cover the screen, which means the text “Hello, world” ends up centered on screen. The text direction needs to be specified in this instance; when the MaterialApp widget is used, this is taken care of for you, as demonstrated later.",
+    "explanation": "If you are in doubt, then always remember this rule: if a widget changes (because of user interactions, for example) it’s stateful. However, if a widget reacts to change, the containing parent widget can still be stateless if it doesn’t itself react to change.",
     "area": "1"
   },
   "14": {

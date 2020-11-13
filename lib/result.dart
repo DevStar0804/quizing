@@ -38,7 +38,7 @@ class ResultPage extends StatefulWidget {
 }
 
 class _ResultPageState extends State<ResultPage> {
-
+  int saveclick=0;
   // explanations widget
   List<Widget> explanations() {
     this.widget.incorrect_array.sort();
@@ -171,12 +171,21 @@ class _ResultPageState extends State<ResultPage> {
   // save the result data
   resultsave() async {
     final prefs = await SharedPreferences.getInstance();
-    prefs.setString('${this.widget.area}total', this.widget.total);
-    prefs.setString('${this.widget.area}correct', this.widget.correct.toString());
-    prefs.setString('${this.widget.area}incorrect', this.widget.incorrect.toString());
-    prefs.setString('${this.widget.area}notanswered',(int.parse(this.widget.total) -this.widget.incorrect -this.widget.correct).toString());
-    prefs.setString('${this.widget.area}score',(this.widget.correct / int.parse(this.widget.total) * 100).toInt().toString());
+    var total = prefs.getString('${this.widget.area}total');
+    var correct = prefs.getString('${this.widget.area}correct');
+    var incorrect = prefs.getString('${this.widget.area}incorrect');
+    var notanswered = prefs.getString('${this.widget.area}notanswered');
+    var score = prefs.getString('${this.widget.area}score');
+    var number = int.parse(prefs.getString('${this.widget.area}number'));
+    var score1 = (int.parse(score)*number+(this.widget.correct / int.parse(this.widget.total) * 100).toInt())/(number+1);
+    prefs.setString('${this.widget.area}total', (int.parse(total)+int.parse(this.widget.total)).toString());
+    prefs.setString('${this.widget.area}correct', (int.parse(correct)+this.widget.correct).toString());
+    prefs.setString('${this.widget.area}incorrect', (int.parse(incorrect)+this.widget.incorrect).toString());
+    prefs.setString('${this.widget.area}notanswered',(int.parse(notanswered)+(int.parse(this.widget.total) -this.widget.incorrect -this.widget.correct)).toString());
+    prefs.setString('${this.widget.area}score',score1.toInt().toString());
     prefs.setString('${this.widget.area}', this.widget.area);
+    number++;
+    prefs.setString('${this.widget.area}number', number.toString());
   }
 
   // this function is called when click the reset button
@@ -188,6 +197,7 @@ class _ResultPageState extends State<ResultPage> {
     prefs.setString('${this.widget.area}incorrect', '0');
     prefs.setString('${this.widget.area}notanswered','0');
     prefs.setString('${this.widget.area}score','0');
+    prefs.setString('${this.widget.area}number','0');
   }
 
   // overriding the setstate function to be called only if mounted
@@ -491,7 +501,11 @@ class _ResultPageState extends State<ResultPage> {
                                     borderRadius: BorderRadius.circular(10.0),
                                   ),
                                   child: Text("Save"),
-                                  onPressed: () => {resultsave()},
+                                  onPressed: () => {
+                                    saveclick++,
+                                    if(saveclick==1)
+                                      resultsave()
+                                  },
                                 )),
                             SizedBox(
                                 width: screenWidth * 0.2,
