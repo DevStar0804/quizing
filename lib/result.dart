@@ -176,7 +176,7 @@ class _ResultPageState extends State<ResultPage> {
     var incorrect = prefs.getString('${this.widget.area}incorrect');
     var notanswered = prefs.getString('${this.widget.area}notanswered');
     var score = prefs.getString('${this.widget.area}score');
-    var number = int.parse(prefs.getString('${this.widget.area}number'));
+    var number = int.parse(prefs.getString('${this.widget.area}number')); // quizing times
     var score1 = (int.parse(score)*number+(this.widget.correct / int.parse(this.widget.total) * 100).toInt())/(number+1);
     prefs.setString('${this.widget.area}total', (int.parse(total)+int.parse(this.widget.total)).toString());
     prefs.setString('${this.widget.area}correct', (int.parse(correct)+this.widget.correct).toString());
