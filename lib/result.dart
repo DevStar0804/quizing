@@ -38,7 +38,7 @@ class ResultPage extends StatefulWidget {
 }
 
 class _ResultPageState extends State<ResultPage> {
-  int saveclick=0;
+  
   // explanations widget
   List<Widget> explanations() {
     this.widget.incorrect_array.sort();
@@ -211,6 +211,7 @@ class _ResultPageState extends State<ResultPage> {
   // overriding the main page
   @override
   Widget build(BuildContext context) {
+    int saveclick=0;
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
     final TextStyle titleStyle = TextStyle(
